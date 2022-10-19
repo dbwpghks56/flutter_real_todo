@@ -1,0 +1,11 @@
+import 'package:flutter/material.dart';
+
+class TabSearch extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: const Text("search"),
+    );
+  }
+}

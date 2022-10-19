@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>857081012923-v8gdq1q9hkbg561a2n0c969ttq87m39d.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.857081012923-v8gdq1q9hkbg561a2n0c969ttq87m39d</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>857081012923-n5b2cj3ronjpn6s2l6dta6s723ndt3id.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB97YlV0HGnaEnJ5s9aMnPS2JPu9Xk9xw0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>857081012923</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.todo.flutterTodo</string>
+	<key>PROJECT_ID</key>
+	<string>fir-basic-instagram</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fir-basic-instagram.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:857081012923:ios:c3f48ae6e9deeedf7fbf9e</string>
+	<key>DATABASE_URL</key>
+	<string>https://fir-basic-instagram-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
