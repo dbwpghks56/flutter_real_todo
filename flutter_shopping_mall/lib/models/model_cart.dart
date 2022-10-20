@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'model_item.dart';
+import 'package:http/http.dart' as http;
 
 class CartProvider with ChangeNotifier {
   late CollectionReference cartReference;
@@ -32,14 +36,26 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addItemToCart(User? user, Item item) async {
-    cartItems.add(item);
-    Map<String, dynamic> cartItemsMap = {
-      'items' : cartItems.map((e) {
-        return e.toSnapShot();
-      }).toList()
-    };
-    await cartReference.doc(user!.uid).set(cartItemsMap);
+  Future<void> addItemToCart(User? user, int item) async {
+    var url = Uri.parse("http://localhost:8080/cart/insertCart");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await http.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "users" : prefs.getString("pid"),
+          "items" : item
+        })
+    ).then((value) {
+
+    });
+    
+    // cartItems.add(item);
+    // Map<String, dynamic> cartItemsMap = {
+    //   'items' : cartItems.map((e) {
+    //     return e.toSnapShot();
+    //   }).toList()
+    // };
+    // await cartReference.doc(user!.uid).set(cartItemsMap);
     notifyListeners();
   }
 
@@ -55,8 +71,18 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool isItemInCart(Item item) {
-    return cartItems.any((element) => element.id == item.id);
+  Future<bool> isItemInCart(int item)  async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var url = Uri.parse("http://localhost:8080/cart/getCart/${prefs.getString("pid")}");
+    await http.get(url).then((value) {
+      List<dynamic> items = json.decode(value.body);
+      for(Item ritem in items) {
+        return ritem.id == item;
+      }
+    });
+
+    return false;
   }
 
 }

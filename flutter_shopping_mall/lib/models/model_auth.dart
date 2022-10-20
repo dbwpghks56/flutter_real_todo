@@ -59,6 +59,7 @@ class FirebaseAuthProvider extends ChangeNotifier {
         success = value.statusCode.toInt();
         prefs.setString('email', json.decode(value.body)["id"].toString());
         prefs.setString('password', json.decode(value.body)["password"].toString());
+        prefs.setString("pid", json.decode(value.body)["pid"].toString());
       });
 
       if(success == 200) {

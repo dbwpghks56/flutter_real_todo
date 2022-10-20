@@ -53,18 +53,18 @@ class ScreenDetail extends StatelessWidget {
                       )
                     ],
                   ),
-                  // cart.isItemInCart(item) ? const Icon(Icons.check, color: Colors.blue,) :
-                  // InkWell(
-                  //   onTap: () {
-                  //     cart.addItemToCart(authClient.user, item);
-                  //   },
-                  //   child: Column(
-                  //     children: const [
-                  //       Icon(Icons.add, color: Colors.blue,),
-                  //       Text('담기', style: TextStyle(color: Colors.blue),),
-                  //     ],
-                  //   ),
-                  // )
+                  cart.isItemInCart(item["id"]) ? const Icon(Icons.check, color: Colors.blue,) :
+                  InkWell(
+                    onTap: () {
+                      cart.addItemToCart(authClient.user, item["id"]);
+                    },
+                    child: Column(
+                      children: const [
+                        Icon(Icons.add, color: Colors.blue,),
+                        Text('담기', style: TextStyle(color: Colors.blue),),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
