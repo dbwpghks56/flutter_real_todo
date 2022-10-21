@@ -1,0 +1,51 @@
+import 'dart:convert';
+
+import 'package:flutter_todo_mine/model/model_user.dart';
+import 'package:flutter_todo_mine/screens/screen_main.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+class UserController extends GetxController {
+  final user = User().obs;
+
+  void updateEmail(String text) {
+    user.update((val) {
+      val?.email = text;
+    });
+  }
+
+  void updatePassword(String password) {
+    user.update((val) {
+      val?.password = password;
+    });
+  }
+
+  Future<void> Login(String email, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(email);
+    print(password);
+    var url = Uri.parse("http://localhost:8080/user/login");
+    await http.post(
+      url,
+      headers: {"Content-Type" : "application/json"},
+      body: json.encode({
+        "uuid" : email,
+        "upassword" : password
+      })
+    ).then((value) {
+      user.update((val) {
+        val?.email = jsonDecode(value.body)["id"];
+        val?.password = jsonDecode(value.body)["password"];
+        val?.id = jsonDecode(value.body)["pid"];
+        val?.cart = jsonDecode(value.body)["cart"];
+      });
+
+      print(user.value.cart);
+      prefs.setString("id", email);
+      prefs.setString("password", password);
+      prefs.setBool("isLogin", true);
+      Get.off(() => ScreenMain());
+    });
+  }
+}
