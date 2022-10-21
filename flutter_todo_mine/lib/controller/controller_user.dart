@@ -25,7 +25,7 @@ class UserController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print(email);
     print(password);
-    var url = Uri.parse("http://localhost:8080/user/login");
+    var url = Uri.parse("http://localhost:8080/user/login"); // android는 localhost 대신 10.0.2.2
     await http.post(
       url,
       headers: {"Content-Type" : "application/json"},

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todo_mine/controller/controller_user.dart';
 import 'package:flutter_todo_mine/model/model_user.dart';
 import 'package:get/get.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class ScreenLogin extends StatelessWidget {
   var emailController = TextEditingController();
@@ -48,6 +49,30 @@ class ScreenLogin extends StatelessWidget {
                     border: InputBorder.none,
                     hintText: "password"
                 ),
+              ),
+            ),Container(
+              width: 500,
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.blueGrey),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.all(5),
+              margin: const EdgeInsets.only(bottom: 5.0),
+              child : TextButton(
+                  onPressed: () {
+                    DatePicker.showTimePicker(context,
+                        showTitleActions: true,
+                        showSecondsColumn: false,
+                        onChanged: (date) {
+                          print('change $date');
+                        }, onConfirm: (date) {
+                          print('confirm ${date.hour} : ${date.minute}');
+                        }, currentTime: DateTime.now(), locale: LocaleType.ko);
+                  },
+                  child: const Text(
+                    'show date time picker (Korea)',
+                    style: TextStyle(color: Colors.blue),
+                  ),
               ),
             ),
             SizedBox(
