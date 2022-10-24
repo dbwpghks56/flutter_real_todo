@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_todo_mine/model/model_todo.dart';
 import 'package:get/get.dart';
 import '../controller/controller_user.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -12,7 +13,9 @@ class ScreenMain extends StatefulWidget {
 
 class _ScreenMainState extends State<ScreenMain> {
   int touchedIndex = 0;
+  var scheduleText = TextEditingController();
   final userController = Get.put(UserController());
+  final todoModel = Get.put(RxTodoModel());
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +47,22 @@ class _ScreenMainState extends State<ScreenMain> {
                       Get.dialog(
                         Dialog(
                           child: Container(
-                            height: 300,
-                            width: 500,
+                            height: 200,
+                            width: 400,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                Container(
+                                  width: 200,
+                                  margin: const EdgeInsets.only(bottom: 15),
+                                  child: TextField(
+                                    controller: scheduleText,
+                                    decoration: const InputDecoration(
+                                        label: Text("To do"),
+                                        hintText: "할 일을 적어주세요."
+                                    ),
+                                  ),
+                                ),
                                 TextButton(
                                   onPressed: () {
                                     DatePicker.showTimePicker(context,
@@ -57,14 +71,27 @@ class _ScreenMainState extends State<ScreenMain> {
                                       onChanged: (date) {
 
                                       }, onConfirm: (date) {
-                                        print('confirm ${date.hour} : ${date.minute}');
+                                        todoModel.start("${date.hour}:${date.minute}");
+                                        print("${todoModel.start}");
                                       }, currentTime: DateTime.now(), locale: LocaleType.ko);
                                   },
                                   child: const Text(
-                                    'show date time picker (Korea)',
+                                    '시작 시간 설정하기',
                                     style: TextStyle(color: Colors.blue),
                                   ),
                                 ),
+                                Obx(() {
+                                  return Container(
+                                    width: 200,
+                                    child: TextField(
+                                      readOnly: true,
+                                      enabled: false,
+                                      decoration: InputDecoration(
+                                        label: Text("${todoModel.start}"),
+                                      ),
+                                    ),
+                                  );
+                                }),
                               ],
                             ),
                           ),
