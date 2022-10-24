@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import '../controller/controller_user.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -18,6 +19,64 @@ class _ScreenMainState extends State<ScreenMain> {
     return Scaffold(
       appBar: AppBar(
         title: Text(userController.user.value.email),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Text("+", style: TextStyle(fontSize: 25),),
+        onPressed: () {
+          Get.bottomSheet(
+            Scaffold(
+              appBar: AppBar(
+                title: const Text("john na Test"),
+                backgroundColor: Colors.blueGrey,
+                actions: [
+                  InkWell(
+                    child: Container(
+                      width: 50,
+                      padding: EdgeInsets.all(5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text("+", style: TextStyle(fontSize: 25),)
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      Get.dialog(
+                        Dialog(
+                          child: Container(
+                            height: 300,
+                            width: 500,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    DatePicker.showTimePicker(context,
+                                      showTitleActions: true,
+                                      showSecondsColumn: false,
+                                      onChanged: (date) {
+
+                                      }, onConfirm: (date) {
+                                        print('confirm ${date.hour} : ${date.minute}');
+                                      }, currentTime: DateTime.now(), locale: LocaleType.ko);
+                                  },
+                                  child: const Text(
+                                    'show date time picker (Korea)',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
       body: AspectRatio(
         aspectRatio: 1,

@@ -45,7 +45,7 @@ class UserController extends GetxController {
       prefs.setString("id", email);
       prefs.setString("password", password);
       prefs.setBool("isLogin", true);
-      Get.off(() => ScreenMain());
+      Get.off(() => ScreenMain(), transition: Transition.cupertino);
     });
   }
 }
