@@ -59,20 +59,11 @@ class UserController extends GetxController {
         "upassword" : password
       })
     ).then((value) {
-      if(value == 1) {
-        Get.showSnackbar(const GetSnackBar(
-          title: "Sign Up",
-          message: "회원가입에 성공하셨습니다.",
-          duration: Duration(seconds: 2),
-        ));
-      }
-      else {
-        Get.showSnackbar(const GetSnackBar(
-          title: "Sign Up",
-          message: "회원가입에 실패하셨습니다. 다시 시도해주세요.",
-          duration: Duration(seconds: 2),
-        ));
-      }
+      Get.showSnackbar(const GetSnackBar(
+        title: "Sign Up",
+        message: "회원가입에 성공하셨습니다.",
+        duration: Duration(seconds: 2),
+      ));
     });
   }
 }

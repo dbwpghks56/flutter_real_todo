@@ -30,26 +30,31 @@ class ScreenRegister extends StatelessWidget {
               ),
               controller: passwordText,
             ),
-            TextField(
+            Container(
+            width: 500,
+            decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Colors.blueGrey),
+            borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.all(5),
+            margin: const EdgeInsets.only(bottom: 5.0),
+            child :TextField(
               decoration: const InputDecoration(
                   label: Text("password confirm")
               ),
               controller: passwordConfirmText,
-            ),
-            passwordText.text == passwordConfirmText.text
-            ? ElevatedButton(
+            )),
+             ElevatedButton(
                 onPressed: () {
-                  userController.SignUp(emailText.text.trim(), passwordText.text.trim());
+                  if(passwordText.text.trim() == passwordConfirmText.text.trim()) {
+                    userController.SignUp(emailText.text.trim(), passwordText.text.trim());
+                  } else {
+                    Get.showSnackbar(const GetSnackBar(
+                      message: "비밀번호를 확인해주세요",
+                      duration: Duration(seconds: 1),
+                    ));
+                  }
                   },
-                child: const Text("회원가입하기")) :
-            ElevatedButton(
-                onPressed: () {
-                  Get.showSnackbar(const GetSnackBar(
-                    message: "비밀번호가 다릅니다.",
-                    duration: Duration(seconds: 1),
-                  ));
-                  },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
                 child: const Text("회원가입하기")),
           ],
         ),

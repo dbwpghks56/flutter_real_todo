@@ -52,30 +52,6 @@ class ScreenLogin extends StatelessWidget {
                     hintText: "password"
                 ),
               ),
-            ),Container(
-              width: 500,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Colors.blueGrey),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(5),
-              margin: const EdgeInsets.only(bottom: 5.0),
-              child : TextButton(
-                  onPressed: () {
-                    DatePicker.showTimePicker(context,
-                        showTitleActions: true,
-                        showSecondsColumn: false,
-                        onChanged: (date) {
-                          print('change $date');
-                        }, onConfirm: (date) {
-                          print('confirm ${date.hour} : ${date.minute}');
-                        }, currentTime: DateTime.now(), locale: LocaleType.ko);
-                  },
-                  child: const Text(
-                    'show date time picker (Korea)',
-                    style: TextStyle(color: Colors.blue),
-                  ),
-              ),
             ),
             SizedBox(
               width: 500,
@@ -89,7 +65,7 @@ class ScreenLogin extends StatelessWidget {
               ),
             ),
             TextButton(onPressed: () {
-              Get.to(ScreenRegister());
+                Get.to(ScreenRegister());
               },
               child: const Text("회원가입하러 가기"),
             ),
