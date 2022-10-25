@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_todo_mine/model/model_todo.dart';
 import 'package:get/get.dart';
+import '../controller/controller_todo.dart';
 import '../controller/controller_user.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,6 +17,7 @@ class _ScreenMainState extends State<ScreenMain> {
   var scheduleText = TextEditingController();
   final userController = Get.put(UserController());
   final todoModel = Get.put(RxTodoModel());
+  final todoservice = Get.put(TodoController());
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +49,8 @@ class _ScreenMainState extends State<ScreenMain> {
                       Get.dialog(
                         Dialog(
                           child: Container(
-                            height: 200,
-                            width: 400,
+                            height: 300,
+                            width: 300,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -59,29 +61,12 @@ class _ScreenMainState extends State<ScreenMain> {
                                     controller: scheduleText,
                                     decoration: const InputDecoration(
                                         label: Text("To do"),
-                                        hintText: "할 일을 적어주세요."
+                                        hintText: "할 일을 적어주세요.",
                                     ),
                                   ),
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    DatePicker.showTimePicker(context,
-                                      showTitleActions: true,
-                                      showSecondsColumn: false,
-                                      onChanged: (date) {
-
-                                      }, onConfirm: (date) {
-                                        todoModel.start("${date.hour}:${date.minute}");
-                                        print("${todoModel.start}");
-                                      }, currentTime: DateTime.now(), locale: LocaleType.ko);
-                                  },
-                                  child: const Text(
-                                    '시작 시간 설정하기',
-                                    style: TextStyle(color: Colors.blue),
-                                  ),
-                                ),
                                 Obx(() {
-                                  return Container(
+                                  return SizedBox(
                                     width: 200,
                                     child: TextField(
                                       readOnly: true,
@@ -92,10 +77,81 @@ class _ScreenMainState extends State<ScreenMain> {
                                     ),
                                   );
                                 }),
+                                TextButton(
+                                  onPressed: () {
+                                    DatePicker.showTimePicker(context,
+                                        showTitleActions: true,
+                                        showSecondsColumn: false,
+                                        onChanged: (date) {
+
+                                        }, onConfirm: (date) {
+                                          todoModel.start("${date.hour}:${date.minute}");
+                                          print("${todoModel.start}");
+                                        }, currentTime: DateTime.now(), locale: LocaleType.ko);
+                                  },
+                                  child: const Text(
+                                    '시작 시간 설정하기',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                ),
+                                Obx(() {
+                                  return SizedBox(
+                                    width: 200,
+                                    child: TextField(
+                                      readOnly: true,
+                                      enabled: false,
+                                      decoration: InputDecoration(
+                                        label: Text("${todoModel.end}"),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                                TextButton(
+                                  onPressed: () {
+                                    DatePicker.showTimePicker(context,
+                                        showTitleActions: true,
+                                        showSecondsColumn: false,
+                                        onChanged: (date) {
+
+                                        }, onConfirm: (date) {
+                                          todoModel.end("${date.hour}:${date.minute}");
+                                          print("${todoModel.end}");
+                                        }, currentTime: DateTime.now(), locale: LocaleType.ko);
+                                  },
+                                  child: const Text(
+                                    '끝나는 시간 설정하기',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10, top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
+                                        child: const Text("Cancel"),
+                                      ),
+                                      const Padding(padding: EdgeInsets.only(right: 10)),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          todoModel.name(scheduleText.text.trim());
+                                          todoservice.insertTodo();
+                                          Get.back();
+                                        },
+                                        style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                                        child: const Text("Save"),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                        )
+                        ),
                       );
                     },
                   ),

@@ -30,6 +30,6 @@ class TodoModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'name' : name, 'id':id,
+    'todoName' : name, 'startTime' : start, 'endTime' : end
   };
 }
