@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_mine/controller/controller_user.dart';
 import 'package:flutter_todo_mine/model/model_user.dart';
+import 'package:flutter_todo_mine/screens/screen_register.dart';
 import 'package:get/get.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
@@ -86,6 +87,11 @@ class ScreenLogin extends StatelessWidget {
                 },
                 child: const Text("LogIn"),
               ),
+            ),
+            TextButton(onPressed: () {
+              Get.to(ScreenRegister());
+              },
+              child: const Text("회원가입하러 가기"),
             ),
           ],
         ),

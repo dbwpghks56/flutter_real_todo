@@ -48,4 +48,31 @@ class UserController extends GetxController {
       Get.off(() => ScreenMain(), transition: Transition.cupertino);
     });
   }
+
+  Future<void> SignUp(String email, String password) async {
+    var url = Uri.parse("http://localhost:8080/user/signUp");
+    await http.post(
+      url,
+      headers: {"Content-Type" : "application/json"},
+      body: json.encode({
+        "uuid" : email,
+        "upassword" : password
+      })
+    ).then((value) {
+      if(value == 1) {
+        Get.showSnackbar(const GetSnackBar(
+          title: "Sign Up",
+          message: "회원가입에 성공하셨습니다.",
+          duration: Duration(seconds: 2),
+        ));
+      }
+      else {
+        Get.showSnackbar(const GetSnackBar(
+          title: "Sign Up",
+          message: "회원가입에 실패하셨습니다. 다시 시도해주세요.",
+          duration: Duration(seconds: 2),
+        ));
+      }
+    });
+  }
 }
