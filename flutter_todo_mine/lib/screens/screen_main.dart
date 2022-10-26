@@ -28,6 +28,7 @@ class _ScreenMainState extends State<ScreenMain> {
       floatingActionButton: FloatingActionButton(
         child: const Text("+", style: TextStyle(fontSize: 25),),
         onPressed: () {
+         todoservice.getTodos();
           Get.bottomSheet(
             Scaffold(
               appBar: AppBar(
@@ -49,10 +50,10 @@ class _ScreenMainState extends State<ScreenMain> {
                       Get.dialog(
                         Dialog(
                           child: Container(
-                            height: 300,
+                            height: 350,
                             width: 300,
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Container(
                                   width: 200,
@@ -139,6 +140,7 @@ class _ScreenMainState extends State<ScreenMain> {
                                       ElevatedButton(
                                         onPressed: () {
                                           todoModel.name(scheduleText.text.trim());
+                                          scheduleText.text = "";
                                           todoservice.insertTodo();
                                           Get.back();
                                         },
@@ -157,6 +159,17 @@ class _ScreenMainState extends State<ScreenMain> {
                   ),
                 ],
               ),
+              body: Obx(() {
+                return ListView.builder(
+                  itemCount: todoModel.todos.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(todoModel.todos[index]["todoName"].toString()),
+                      subtitle: Text("${todoModel.todos[index]["startTime"].toString()} ~ ${todoModel.todos[index]["endTime"].toString()}"),
+                    );
+                  },
+                );
+              })
             ),
           );
         },
