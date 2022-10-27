@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todo_mine/controller/controller_user.dart';
 import 'package:flutter_todo_mine/screens/screen_login.dart';
 import 'package:flutter_todo_mine/screens/screen_main.dart';
+import 'package:flutter_todo_mine/screens/screen_tab.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
@@ -29,7 +30,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
   void moveScreen() async {
     await checkLogin().then((value) {
       if(value) {
-        Get.off(() => ScreenMain());
+        Get.off(() => ScreenTab());
       }
       else {
         Get.off(() => ScreenLogin());

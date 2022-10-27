@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_todo_mine/model/model_user.dart';
 import 'package:flutter_todo_mine/screens/screen_login.dart';
 import 'package:flutter_todo_mine/screens/screen_main.dart';
+import 'package:flutter_todo_mine/screens/screen_tab.dart';
 import 'package:get/get.dart';
 // import 'dart:io' as platfrom;
 import 'package:http/http.dart' as http;
@@ -57,7 +58,7 @@ class UserController extends GetxController {
       prefs.setString("id", email);
       prefs.setString("password", password);
       prefs.setBool("isLogin", true);
-      Get.off(() => ScreenMain(), transition: Transition.cupertino);
+      Get.off(() => ScreenTab(), transition: Transition.cupertino);
     });
   }
 

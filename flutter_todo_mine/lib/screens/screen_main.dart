@@ -22,20 +22,6 @@ class _ScreenMainState extends State<ScreenMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(userController.user.value.email),
-        actions: [
-          SizedBox(
-            width: 100,
-            child: InkWell(
-              child: const Icon(Icons.logout),
-              onTap: () {
-                userController.logout();
-              },
-            ),
-          )
-        ],
-      ),
       floatingActionButton: FloatingActionButton(
         child: const Text(
           "+",
@@ -46,7 +32,7 @@ class _ScreenMainState extends State<ScreenMain> {
           Get.bottomSheet(
             Scaffold(
               appBar: AppBar(
-                title: const Text("john na Test"),
+                title: const Text("나의 일정"),
                 backgroundColor: Colors.blueGrey,
                 actions: [
                   InkWell(
