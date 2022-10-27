@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_todo_mine/model/model_user.dart';
+import 'package:flutter_todo_mine/screens/screen_login.dart';
 import 'package:flutter_todo_mine/screens/screen_main.dart';
 import 'package:get/get.dart';
 // import 'dart:io' as platfrom;
@@ -58,6 +59,14 @@ class UserController extends GetxController {
       prefs.setBool("isLogin", true);
       Get.off(() => ScreenMain(), transition: Transition.cupertino);
     });
+  }
+
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("id", "");
+    prefs.setString("password", "");
+    prefs.setBool("isLogin", false);
+    Get.off(() => ScreenLogin());
   }
 
   Future<void> SignUp(String email, String password) async {
