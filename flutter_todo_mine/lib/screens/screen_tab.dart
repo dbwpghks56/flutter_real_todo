@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_mine/screens/screen_main.dart';
 import 'package:flutter_todo_mine/tab/tab_calender.dart';
+import 'package:flutter_todo_mine/tab/tab_my_page.dart';
 import 'package:get/get.dart';
 import '../controller/controller_user.dart';
 
@@ -15,7 +16,8 @@ class _ScreenTabState extends State<ScreenTab> {
   bool appzonzae = true;
   final List<Widget> _tabs = [
     ScreenMain(),
-    TabCalender()
+    TabCalender(),
+    TabMyPage()
   ];
 
   @override
@@ -56,6 +58,7 @@ class _ScreenTabState extends State<ScreenTab> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.pending_actions_outlined), label: "Todo"),
           BottomNavigationBarItem(icon: Icon(Icons.calendar_month_outlined), label: "calendar"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "myPage")
         ],
       ),
       body: _tabs[_currentIndex],
