@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todo_mine/screens/screen_login.dart';
 import 'package:flutter_todo_mine/screens/screen_splash.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

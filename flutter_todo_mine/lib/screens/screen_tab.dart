@@ -12,7 +12,7 @@ class ScreenTab extends StatefulWidget {
 class _ScreenTabState extends State<ScreenTab> {
   int _currentIndex = 0;
   final userController = Get.put(UserController());
-
+  bool appzonzae = true;
   final List<Widget> _tabs = [
     ScreenMain(),
     TabCalender()
@@ -21,7 +21,7 @@ class _ScreenTabState extends State<ScreenTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: appzonzae ? AppBar(
         title: const Text("멋쟁이 todo"),
         actions: [
           SizedBox(
@@ -34,7 +34,7 @@ class _ScreenTabState extends State<ScreenTab> {
             ),
           )
         ],
-      ),
+      ) : null,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         iconSize: 30,
@@ -45,6 +45,12 @@ class _ScreenTabState extends State<ScreenTab> {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
+            if (_currentIndex == 1) {
+              appzonzae = false;
+            }
+            else {
+              appzonzae = true;
+            }
           });
         },
         items: const [
