@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'controller_todo.dart';
+
 class UserController extends GetxController {
   final user = User().obs;
   final defaultUrl = "http://localhost:8080";
@@ -53,12 +55,10 @@ class UserController extends GetxController {
         val?.id = jsonDecode(value.body)["pid"];
         val?.cart = jsonDecode(value.body)["cart"];
       });
-
       print(user.value.cart);
       prefs.setString("id", email);
       prefs.setString("password", password);
       prefs.setBool("isLogin", true);
-      Get.off(() => ScreenTab(), transition: Transition.cupertino);
     });
   }
 

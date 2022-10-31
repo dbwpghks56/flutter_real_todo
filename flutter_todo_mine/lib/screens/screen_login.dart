@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todo_mine/controller/controller_user.dart';
 import 'package:flutter_todo_mine/model/model_user.dart';
 import 'package:flutter_todo_mine/screens/screen_register.dart';
+import 'package:flutter_todo_mine/screens/screen_tab.dart';
 import 'package:get/get.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
+import '../controller/controller_todo.dart';
 
 class ScreenLogin extends StatelessWidget {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   final userController = Get.put(UserController());
+  final todoservice = Get.put(TodoController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,8 +61,10 @@ class ScreenLogin extends StatelessWidget {
               height: 50,
               child : ElevatedButton(
                 style: ElevatedButton.styleFrom(),
-                onPressed: () {
-                  userController.Login(emailController.text.trim(), passwordController.text.trim());
+                onPressed: () async {
+                  await userController.Login(emailController.text.trim(), passwordController.text.trim());
+                  await todoservice.getTodos();
+                  Get.off(() => ScreenTab(), transition: Transition.cupertino);
                 },
                 child: const Text("LogIn"),
               ),

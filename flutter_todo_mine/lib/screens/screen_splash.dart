@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_mine/controller/controller_todo.dart';
 import 'package:flutter_todo_mine/controller/controller_user.dart';
 import 'package:flutter_todo_mine/screens/screen_login.dart';
 import 'package:flutter_todo_mine/screens/screen_main.dart';
@@ -15,6 +16,7 @@ class ScreenSplash extends StatefulWidget {
 
 class _ScreenSplashState extends State<ScreenSplash> {
   final userController = Get.put(UserController());
+  final todoservice = Get.put(TodoController());
 
   Future<bool> checkLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -22,6 +24,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
     if(isLogin) {
       await userController.Login(prefs.getString("id")!, prefs.getString("password")!);
+      await todoservice.getTodos();
     }
 
     return isLogin;

@@ -5,6 +5,7 @@ class RxTodoModel {
   final name = 'name'.obs;
   final start = 'start-time'.obs;
   final end = 'end-time'.obs;
+  final durationTime = 0.obs;
   final todos = [].obs;
 }
 
@@ -27,6 +28,9 @@ class TodoModel {
 
   get todos => rx.todos.value;
   set todos(value) => rx.todos.value = value;
+
+  get durationTime => rx.durationTime.value;
+  set durationTime(value) => rx.durationTime.value = value;
 
   TodoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -4,9 +4,7 @@ import 'dart:io';
 import 'package:flutter_todo_mine/controller/controller_user.dart';
 import 'package:flutter_todo_mine/model/model_todo.dart';
 import 'package:get/get.dart';
-import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TodoController extends GetxController {
   final todoModel = Get.put(RxTodoModel());
