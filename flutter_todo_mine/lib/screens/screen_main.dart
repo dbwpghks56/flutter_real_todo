@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 import '../controller/controller_todo.dart';
 import '../controller/controller_user.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:time_range_picker/time_range_picker.dart';
 
 class ScreenMain extends StatefulWidget {
   @override
@@ -461,45 +459,45 @@ class _ScreenMainState extends State<ScreenMain> {
   }
 }
 
-class _Badge extends StatelessWidget {
-  const _Badge(
-    this.svgAsset, {
-    required this.size,
-    required this.borderColor,
-  });
-
-  final String svgAsset;
-  final double size;
-  final Color borderColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: PieChart.defaultDuration,
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: borderColor,
-          width: 2,
-        ),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black.withOpacity(.5),
-            offset: const Offset(3, 3),
-            blurRadius: 3,
-          ),
-        ],
-      ),
-      padding: EdgeInsets.all(size * .15),
-      child: Center(
-        child: Image.network(
-          svgAsset,
-          fit: BoxFit.fill,
-        ),
-      ),
-    );
-  }
-}
+// class _Badge extends StatelessWidget {
+//   const _Badge(
+//     this.svgAsset, {
+//     required this.size,
+//     required this.borderColor,
+//   });
+//
+//   final String svgAsset;
+//   final double size;
+//   final Color borderColor;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return AnimatedContainer(
+//       duration: PieChart.defaultDuration,
+//       width: size,
+//       height: size,
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         shape: BoxShape.circle,
+//         border: Border.all(
+//           color: borderColor,
+//           width: 2,
+//         ),
+//         boxShadow: <BoxShadow>[
+//           BoxShadow(
+//             color: Colors.black.withOpacity(.5),
+//             offset: const Offset(3, 3),
+//             blurRadius: 3,
+//           ),
+//         ],
+//       ),
+//       padding: EdgeInsets.all(size * .15),
+//       child: Center(
+//         child: Image.network(
+//           svgAsset,
+//           fit: BoxFit.fill,
+//         ),
+//       ),
+//     );
+//   }
+// }
