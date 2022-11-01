@@ -1,10 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_todo_mine/model/model_todo.dart';
 import 'package:get/get.dart';
+import 'package:radar_chart/radar_chart.dart';
 import '../controller/controller_todo.dart';
 import '../controller/controller_user.dart';
-import 'package:fl_chart/fl_chart.dart';
+// import 'package:fl_chart/fl_chart.dart';
 
 class ScreenMain extends StatefulWidget {
   @override
@@ -13,6 +16,7 @@ class ScreenMain extends StatefulWidget {
 
 class _ScreenMainState extends State<ScreenMain> {
   int touchedIndex = 0;
+  int _length = 24;
   var scheduleText = TextEditingController();
   final userController = Get.put(UserController());
   final todoModel = Get.put(RxTodoModel());
@@ -381,73 +385,55 @@ class _ScreenMainState extends State<ScreenMain> {
             );
           },
         ),
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AspectRatio(
-                aspectRatio: 1,
-                child: Obx(() {
-                  return PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(
-                        touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                          setState(() {
-                            if (!event.isInterestedForInteractions ||
-                                pieTouchResponse == null ||
-                                pieTouchResponse.touchedSection == null) {
-                              touchedIndex = -1;
-                              return;
-                            }
-                            touchedIndex = pieTouchResponse
-                                .touchedSection!.touchedSectionIndex;
-                          });
-                        },
-                      ),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 0,
-                      sections: showingSections(),
-                    ),
-                  );
-                })),
-          ],
-        ));
+        body:
+            Obx(() {
+              return RadarChart(
+                radius: 150,
+                initialAngle: pi/3,
+                radialStroke: 2,
+                radialColor: Colors.grey,
+                length: _length,
+                borderStroke: 1,
+                borderColor: Colors.black.withOpacity(0.4),
+                radars: showingRadar(),
+              );
+            })
+         );
   }
 
-  List<PieChartSectionData> showingSections() {
-    if (todoModel.todos.isEmpty) {
-      return List.generate(1, (i) {
-        return PieChartSectionData(
-          color: const Color(0xff0293ee),
-          value: 100,
-          title: '(비어있습니다.)',
-          radius: 110.0,
-          titleStyle: const TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-          badgePositionPercentageOffset: .98,
-        );
-      });
-    } else {
-      return List.generate(todoModel.todos.length, (i) {
-        return PieChartSectionData(
-          color: Color.fromRGBO(i * 20, i * 30, i*10, 1),
-          value: todoModel.todos[i]["durationTime"],
-          title: '${todoModel.todos[i]["todoName"]}',
-          radius: 110.0,
-          titleStyle: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: Color(0xffffffff),
-          ),
-          badgePositionPercentageOffset: .98,
-        );
-      });
+  List<RadarTile> showingRadar() {
+    return List.generate(todoModel.todos.length, (index) {
+      return RadarTile(
+        values: getValues(index),
+        borderStroke: 1,
+        borderColor: Color.fromRGBO(index * 20, index * 30, index*10, 1),
+        backgroundColor: Color.fromRGBO(index * 20, index * 30, index*10, 0.4),
+      );
+    });
+  }
+
+  List<double> getValues(int index) {
+    List<double> value = [];
+
+    for(int i = 0; i < 24; i++) {
+      value.add(0.0);
     }
+    int startH = parseInt(todoModel.todos[index]["startTime"]);
+    int endH = parseInt(todoModel.todos[index]["endTime"]);
+
+
+    if((endH % 10) >= 0) {
+      for(int i = startH-10; i <= endH-10; i++) {
+        value.insert(i, 1.0);
+      }
+    } else {
+      endH += 15;
+      for(int i = startH; i < endH; i++) {
+        value.insert(i, 1);
+      }
+    }
+
+    return value;
   }
 
   int confirmMinutes(int min) {
@@ -457,47 +443,8 @@ class _ScreenMainState extends State<ScreenMain> {
       return 1;
     }
   }
-}
 
-// class _Badge extends StatelessWidget {
-//   const _Badge(
-//     this.svgAsset, {
-//     required this.size,
-//     required this.borderColor,
-//   });
-//
-//   final String svgAsset;
-//   final double size;
-//   final Color borderColor;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return AnimatedContainer(
-//       duration: PieChart.defaultDuration,
-//       width: size,
-//       height: size,
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         shape: BoxShape.circle,
-//         border: Border.all(
-//           color: borderColor,
-//           width: 2,
-//         ),
-//         boxShadow: <BoxShadow>[
-//           BoxShadow(
-//             color: Colors.black.withOpacity(.5),
-//             offset: const Offset(3, 3),
-//             blurRadius: 3,
-//           ),
-//         ],
-//       ),
-//       padding: EdgeInsets.all(size * .15),
-//       child: Center(
-//         child: Image.network(
-//           svgAsset,
-//           fit: BoxFit.fill,
-//         ),
-//       ),
-//     );
-//   }
-// }
+  int parseInt(String convert) {
+    return int.parse(convert.split(":")[0]);
+  }
+}
