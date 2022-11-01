@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RxTodoModel {
@@ -7,6 +8,7 @@ class RxTodoModel {
   final end = 'end-time'.obs;
   final durationTime = 0.obs;
   final todos = [].obs;
+  final tabColor = Color(0xff443a49).obs;
 }
 
 class TodoModel {
@@ -31,6 +33,10 @@ class TodoModel {
 
   get durationTime => rx.durationTime.value;
   set durationTime(value) => rx.durationTime.value = value;
+
+  get tabColor => rx.tabColor.value;
+  set tabColor(value) => rx.tabColor.value = value;
+
 
   TodoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

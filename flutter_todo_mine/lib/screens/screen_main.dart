@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_todo_mine/model/model_todo.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class ScreenMain extends StatefulWidget {
 
 class _ScreenMainState extends State<ScreenMain> {
   int touchedIndex = 0;
-  int _length = 24;
+  final int _length = 24;
   var scheduleText = TextEditingController();
   final userController = Get.put(UserController());
   final todoModel = Get.put(RxTodoModel());
@@ -161,6 +162,28 @@ class _ScreenMainState extends State<ScreenMain> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
+                                        Obx(() {
+                                          return ElevatedButton(
+                                            onPressed: () {
+                                              Get.dialog(
+                                                Dialog(
+                                                  child: BlockPicker(
+                                                    pickerColor: todoModel.tabColor.value,
+                                                    onColorChanged: (color) {
+                                                      todoModel.tabColor(color);
+                                                    },
+                                                  ),
+                                                )
+                                              );
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: todoModel.tabColor.value),
+                                            child: const Text("색 정하기"),
+                                          );
+                                        }),
+                                        const Padding(
+                                            padding:
+                                            EdgeInsets.only(right: 10)),
                                         ElevatedButton(
                                           onPressed: () {
                                             todoModel.name("name");
@@ -212,8 +235,15 @@ class _ScreenMainState extends State<ScreenMain> {
                         return ListTile(
                           title: Text(
                               todoModel.todos[index]["todoName"].toString()),
-                          subtitle: Text(
-                              "${todoModel.todos[index]["startTime"].toString()} ~ ${todoModel.todos[index]["endTime"].toString()}"),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                  "${todoModel.todos[index]["startTime"].toString()} ~ ${todoModel.todos[index]["endTime"].toString()}"),
+                              CircleAvatar(
+                                backgroundColor: todoModel.todos[index]["tabColor"],
+                              )
+                            ],
+                          ),
                           trailing: IconButton(
                             icon: const Icon(Icons.delete),
                             color: Colors.deepOrangeAccent,
@@ -385,19 +415,36 @@ class _ScreenMainState extends State<ScreenMain> {
             );
           },
         ),
-        body:
+        body: Center(
+          child:
             Obx(() {
               return RadarChart(
-                radius: 150,
+                radius: 150.0,
                 initialAngle: pi/3,
-                radialStroke: 2,
-                radialColor: Colors.grey,
                 length: _length,
-                borderStroke: 1,
+                borderStroke: 1.0,
                 borderColor: Colors.black.withOpacity(0.4),
                 radars: showingRadar(),
+                vertices: List.generate(24, (index) {
+                  if(index > 14) {
+                    return PreferredSize(
+                        preferredSize: const Size.square(2 * 8),
+                        child: Text("${index-14}", style: const TextStyle(
+                            fontSize: 20
+                        ),
+                        )
+                    );
+                  } else {
+                    return PreferredSize(
+                        preferredSize: const Size.square(2 * 8),
+                        child: Text("${index+10}", style: const TextStyle(
+                          fontSize: 20,
+                        ),),
+                    );
+                  }
+                })
               );
-            })
+            })),
          );
   }
 
@@ -405,9 +452,9 @@ class _ScreenMainState extends State<ScreenMain> {
     return List.generate(todoModel.todos.length, (index) {
       return RadarTile(
         values: getValues(index),
-        borderStroke: 1,
-        borderColor: Color.fromRGBO(index * 20, index * 30, index*10, 1),
-        backgroundColor: Color.fromRGBO(index * 20, index * 30, index*10, 0.4),
+        borderStroke: 1.0,
+        borderColor: Colors.black,
+        backgroundColor: todoModel.todos[index]["tabColor"],
       );
     });
   }
@@ -419,17 +466,17 @@ class _ScreenMainState extends State<ScreenMain> {
       value.add(0.0);
     }
     int startH = parseInt(todoModel.todos[index]["startTime"]);
-    int endH = parseInt(todoModel.todos[index]["endTime"]);
+    double durationT = todoModel.todos[index]["durationTime"];
 
-
-    if((endH % 10) >= 0) {
-      for(int i = startH-10; i <= endH-10; i++) {
+    if((startH ~/ 10) > 0) {
+      startH -= 10;
+      for(int i = startH; i <= startH+durationT; i++) {
         value.insert(i, 1.0);
       }
-    } else {
-      endH += 15;
-      for(int i = startH; i < endH; i++) {
-        value.insert(i, 1);
+    } else if((startH ~/ 10) == 0)  {
+      startH += 15;
+      for(int i = startH; i < startH+durationT; i++) {
+        value.insert(i, 1.0);
       }
     }
 

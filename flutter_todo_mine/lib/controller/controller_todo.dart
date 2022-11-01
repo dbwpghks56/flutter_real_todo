@@ -73,6 +73,7 @@ class TodoController extends GetxController {
         "todoName" : todoModel.name.toString(),
         "startTime" : todoModel.start.toString(),
         "endTime" : todoModel.end.toString(),
+        "tabColor" : todoModel.tabColor.value,
         "users" : {
           "id" : userModel.user.value.id,
           "uuid" : userModel.user.value.email,
@@ -109,6 +110,7 @@ class TodoController extends GetxController {
         "todoName" : todoModel.name.toString(),
         "startTime" : todoModel.start.toString(),
         "endTime" : todoModel.end.toString(),
+        "tabColor" : todoModel.tabColor.value,
         "users" : {
           "id" : userModel.user.value.id,
           "uuid" : userModel.user.value.email,
