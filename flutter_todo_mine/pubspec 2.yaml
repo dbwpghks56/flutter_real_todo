@@ -1,0 +1,33 @@
+name: flutter_todo_mine
+description: A new Flutter project.
+publish_to: none
+version: 1.0.0+1
+environment: {sdk: '>=2.18.2 <3.0.0'}
+dependencies:
+  flutter: {sdk: flutter}
+  cupertino_icons: ^1.0.2
+  http: ^0.13.5
+  get: ^4.6.5
+  shared_preferences: ^2.0.15
+  lottie: ^1.0.1
+  crypto: ^3.0.1
+  convert: ^3.0.0
+  fluttertoast: ^8.0.7
+  flutter_screenutil: ^5.0.0+2
+  dio_cookie_manager: ^2.0.0
+  flutter_svg: ^0.22.0
+  fl_chart: ^0.55.2
+  flutter_datetime_picker: ^1.5.1
+  cr_calendar: ^1.0.0+1
+  table_calendar: ^3.0.7
+  intl: ^0.17.0
+  time_range_picker: ^2.2.0
+  radar_chart: ^2.1.0
+  flutter_colorpicker: ^1.0.3
+dev_dependencies:
+  flutter_test: {sdk: flutter}
+  flutter_lints: ^2.0.0
+flutter:
+  uses-material-design: true
+  assets: []
+  fonts: []
