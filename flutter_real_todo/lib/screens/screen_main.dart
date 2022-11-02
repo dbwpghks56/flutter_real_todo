@@ -27,10 +27,7 @@ class _ScreenMainState extends State<ScreenMain> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
-          child: const Text(
-            "+",
-            style: TextStyle(fontSize: 25),
-          ),
+          child: const Icon(Icons.menu,size: 25,),
           onPressed: () async {
             todoservice.getTodos();
             Get.bottomSheet(
@@ -477,11 +474,9 @@ class _ScreenMainState extends State<ScreenMain> {
         value.insert(i, 1.0);
       }
     } else if((startH ~/ 10) == 0)  {
-      startH += 15;
-      if(startH == 0) {
-        startH += 1;
-      }
-      for(int i = startH; i < startH+durationT; i++) {
+      startH += 14;
+
+      for(int i = startH; i <= startH+durationT; i++) {
         value.insert(i, 1.0);
       }
     }
