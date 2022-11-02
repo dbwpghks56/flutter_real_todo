@@ -56,7 +56,7 @@ class _ScreenMainState extends State<ScreenMain> {
                       onTap: () {
                         Get.dialog(
                           Dialog(
-                            child: Container(
+                            child: SizedBox(
                               height: 350,
                               width: 300,
                               child: Column(
@@ -168,16 +168,16 @@ class _ScreenMainState extends State<ScreenMain> {
                                               Get.dialog(
                                                 Dialog(
                                                   child: BlockPicker(
-                                                    pickerColor: todoModel.tabColor.value,
+                                                    pickerColor: Color(todoModel.tabColor.value),
                                                     onColorChanged: (color) {
-                                                      todoModel.tabColor(color);
+                                                      todoModel.tabColor(color.value);
                                                     },
                                                   ),
                                                 )
                                               );
                                             },
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor: todoModel.tabColor.value),
+                                                backgroundColor: Color(todoModel.tabColor.value)),
                                             child: const Text("색 정하기"),
                                           );
                                         }),
@@ -239,8 +239,13 @@ class _ScreenMainState extends State<ScreenMain> {
                             children: [
                               Text(
                                   "${todoModel.todos[index]["startTime"].toString()} ~ ${todoModel.todos[index]["endTime"].toString()}"),
-                              CircleAvatar(
-                                backgroundColor: todoModel.todos[index]["tabColor"],
+                              const Padding(padding: EdgeInsets.only(left: 10)),
+                              SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircleAvatar(
+                                  backgroundColor: Color(parseInt(todoModel.todos[index]["tabColor"])),
+                                ),
                               )
                             ],
                           ),
@@ -452,9 +457,7 @@ class _ScreenMainState extends State<ScreenMain> {
     return List.generate(todoModel.todos.length, (index) {
       return RadarTile(
         values: getValues(index),
-        borderStroke: 1.0,
-        borderColor: Colors.black,
-        backgroundColor: todoModel.todos[index]["tabColor"],
+        backgroundColor: Color(parseInt(todoModel.todos[index]["tabColor"])).withOpacity(0.6),
       );
     });
   }
@@ -475,6 +478,9 @@ class _ScreenMainState extends State<ScreenMain> {
       }
     } else if((startH ~/ 10) == 0)  {
       startH += 15;
+      if(startH == 0) {
+        startH += 1;
+      }
       for(int i = startH; i < startH+durationT; i++) {
         value.insert(i, 1.0);
       }

@@ -8,7 +8,7 @@ class RxTodoModel {
   final end = 'end-time'.obs;
   final durationTime = 0.obs;
   final todos = [].obs;
-  final tabColor = Color(0xff443a49).obs;
+  final tabColor = 0.obs;
 }
 
 class TodoModel {
