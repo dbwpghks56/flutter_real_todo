@@ -54,7 +54,7 @@ class _ScreenMainState extends State<ScreenMain> {
                         Get.dialog(
                           Dialog(
                             child: SizedBox(
-                              height: 350,
+                              height: 550,
                               width: 300,
                               child: Column(
                                 mainAxisAlignment:
@@ -153,34 +153,24 @@ class _ScreenMainState extends State<ScreenMain> {
                                       style: TextStyle(color: Colors.blue),
                                     ),
                                   ),
+                                  Obx(() {
+                                    return SizedBox(
+                                      width: 290,
+                                      height: 150,
+                                      child: BlockPicker(
+                                        pickerColor: Color(todoModel.tabColor.value),
+                                        onColorChanged: (color) {
+                                          todoModel.tabColor(color.value);
+                                        },
+                                      ),
+                                    );
+                                  }),
                                   Container(
                                     margin: const EdgeInsets.only(
                                         right: 10, top: 10),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Obx(() {
-                                          return ElevatedButton(
-                                            onPressed: () {
-                                              Get.dialog(
-                                                Dialog(
-                                                  child: BlockPicker(
-                                                    pickerColor: Color(todoModel.tabColor.value),
-                                                    onColorChanged: (color) {
-                                                      todoModel.tabColor(color.value);
-                                                    },
-                                                  ),
-                                                )
-                                              );
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Color(todoModel.tabColor.value)),
-                                            child: const Text("색 정하기"),
-                                          );
-                                        }),
-                                        const Padding(
-                                            padding:
-                                            EdgeInsets.only(right: 10)),
                                         ElevatedButton(
                                           onPressed: () {
                                             todoModel.name("name");
@@ -454,6 +444,8 @@ class _ScreenMainState extends State<ScreenMain> {
     return List.generate(todoModel.todos.length, (index) {
       return RadarTile(
         values: getValues(index),
+        borderColor: Colors.black,
+        borderStroke: 0.5,
         backgroundColor: Color(parseInt(todoModel.todos[index]["tabColor"])).withOpacity(0.6),
       );
     });

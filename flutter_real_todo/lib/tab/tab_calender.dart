@@ -1,6 +1,9 @@
+import 'package:date_time_picker_widget/date_time_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_real_todo/model/model_todo.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../utils.dart';
 
 class TabCalender extends StatefulWidget {
@@ -9,6 +12,10 @@ class TabCalender extends StatefulWidget {
 }
 
 class _TabCalenderState extends State<TabCalender> {
+  final todoModel = Get.put(RxTodoModel());
+  var eventName = TextEditingController();
+  var eventContent = TextEditingController();
+
   late final ValueNotifier<List<Event>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
@@ -82,6 +89,91 @@ class _TabCalenderState extends State<TabCalender> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.dialog(Dialog(
+            child:
+            SizedBox(
+              width: 350,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    child: DateTimePicker(
+                      type: DateTimePickerType.Date,
+                      startDate: DateTime.now(),
+                      datePickerTitle: "약속 시작 일",
+                      onDateChanged: (date) {
+                        print(date);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 300,
+                    child: DateTimePicker(
+                      type: DateTimePickerType.Date,
+                      startDate: DateTime.now(),
+                      datePickerTitle: "끝나는 일",
+                      onDateChanged: (date) {
+                        print(date);
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 290,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.all(5),
+                    margin: const EdgeInsets.only(bottom: 5.0),
+                    child : TextField(
+                      controller: eventName,
+                      decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "약속이름을 설정해주세요."
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 300,
+                    height: 200,
+                    child:  BlockPicker(
+                        pickerColor: Color(todoModel.tabColor.value),
+                        onColorChanged: (color) {
+                          todoModel.tabColor(color.value);
+                        }),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                        child: const Text("cancel"),
+                      ),
+                      const Padding(padding: EdgeInsets.only(right: 10)),
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                        child: const Text("save"),
+                      ),
+                      const Padding(padding: EdgeInsets.only(right: 10)),
+                    ],
+                  )
+                ],
+              )
+            )
+          ));
+        },
+        child: const Text("+", style: TextStyle(fontSize: 25),),
+      ),
       body: Column(
         children: [
           TableCalendar<Event>(
@@ -161,3 +253,4 @@ class _TabCalenderState extends State<TabCalender> {
     );
   }
 }
+
