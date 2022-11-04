@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_real_todo/controller/controller_event.dart';
 import 'package:flutter_real_todo/screens/screen_main.dart';
 import 'package:flutter_real_todo/tab/tab_calender.dart';
 import 'package:flutter_real_todo/tab/tab_my_page.dart';
@@ -13,6 +14,7 @@ class ScreenTab extends StatefulWidget {
 class _ScreenTabState extends State<ScreenTab> {
   int _currentIndex = 0;
   final userController = Get.put(UserController());
+  final eventController = Get.put(MyController());
   bool appzonzae = true;
   final List<Widget> _tabs = [
     ScreenMain(),
@@ -44,10 +46,11 @@ class _ScreenTabState extends State<ScreenTab> {
         unselectedItemColor: Colors.blueGrey,
         selectedLabelStyle: const TextStyle(fontSize: 12),
         currentIndex: _currentIndex,
-        onTap: (index) {
+        onTap: (index) async {
           setState(() {
             _currentIndex = index;
             if (_currentIndex == 1) {
+              eventController.getEvents();
               appzonzae = false;
             }
             else {

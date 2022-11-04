@@ -1,5 +1,7 @@
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_real_todo/controller/controller_event.dart';
+import 'package:flutter_real_todo/model/model_event.dart';
 import 'package:flutter_real_todo/model/model_todo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:get/get.dart';
@@ -14,7 +16,8 @@ class TabCalender extends StatefulWidget {
 class _TabCalenderState extends State<TabCalender> {
   final todoModel = Get.put(RxTodoModel());
   var eventName = TextEditingController();
-  var eventContent = TextEditingController();
+  var eventService = Get.put(MyController());
+  final eventModel = Get.put(RxEventModel());
 
   late final ValueNotifier<List<Event>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -41,7 +44,7 @@ class _TabCalenderState extends State<TabCalender> {
 
   List<Event> _getEventsForDay(DateTime day) {
     // Implementation example
-    return kEvents[day] ?? [];
+    return eventService.showEvent(day) ?? [];
   }
 
   List<Event> _getEventsForRange(DateTime start, DateTime end) {
@@ -106,6 +109,8 @@ class _TabCalenderState extends State<TabCalender> {
                       datePickerTitle: "약속 시작 일",
                       onDateChanged: (date) {
                         print(date);
+                        eventModel.eventStart(date);
+                        print(eventModel.eventStart);
                       },
                     ),
                   ),
@@ -117,6 +122,7 @@ class _TabCalenderState extends State<TabCalender> {
                       datePickerTitle: "끝나는 일",
                       onDateChanged: (date) {
                         print(date);
+                        eventModel.eventEnd(date);
                       },
                     ),
                   ),
@@ -159,6 +165,8 @@ class _TabCalenderState extends State<TabCalender> {
                       const Padding(padding: EdgeInsets.only(right: 10)),
                       ElevatedButton(
                         onPressed: () {
+                          eventModel.eventName(eventName.text.trim());
+                          eventService.insertEvents();
                           Get.back();
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
