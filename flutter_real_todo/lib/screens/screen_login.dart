@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_real_todo/controller/controller_event.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
 import 'package:flutter_real_todo/model/model_user.dart';
 import 'package:flutter_real_todo/screens/screen_register.dart';
@@ -13,6 +14,7 @@ class ScreenLogin extends StatelessWidget {
   var passwordController = TextEditingController();
   final userController = Get.put(UserController());
   final todoservice = Get.put(TodoController());
+  final eventService = Get.put(MyController());
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +66,7 @@ class ScreenLogin extends StatelessWidget {
                 onPressed: () async {
                   await userController.Login(emailController.text.trim(), passwordController.text.trim());
                   await todoservice.getTodos();
+                  await eventService.getEvents();
                   Get.off(() => ScreenTab(), transition: Transition.cupertino);
                 },
                 child: const Text("LogIn"),

@@ -50,7 +50,6 @@ class _ScreenTabState extends State<ScreenTab> {
           setState(() {
             _currentIndex = index;
             if (_currentIndex == 1) {
-              eventController.getEvents();
               appzonzae = false;
             }
             else {

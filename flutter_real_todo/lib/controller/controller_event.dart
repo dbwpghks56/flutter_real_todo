@@ -28,14 +28,19 @@ class MyController extends GetxController {
     await http.get(url).then((value) {
       eventModel.events(json.decode(value.body));
 
-
-      _kEventSource = {
-        for (var item in eventModel.events)
-          DateTime.utc(convertDate(item["eventEnd"]).year, convertDate(item["eventEnd"]).month, convertDate(item["eventEnd"]).day)
-              : [Event(item["eventName"], item["eventClear"] == 0 ? false : true)]
-      };
-
-
+      for(var item in eventModel.events) {
+        if(_kEventSource.containsKey(DateTime.utc(convertDate(item["eventEnd"]).year, convertDate(item["eventEnd"]).month, convertDate(item["eventEnd"]).day))) {
+          _kEventSource.update(DateTime.utc(convertDate(item["eventEnd"]).year, convertDate(item["eventEnd"]).month, convertDate(item["eventEnd"]).day), (value)  {
+            print("same value : $value");
+            value.add(Event(item["eventName"], item["eventClear"] == 0 ? false : true));
+            return value;
+          });
+        }
+        else {
+          _kEventSource[DateTime.utc(convertDate(item["eventEnd"]).year, convertDate(item["eventEnd"]).month, convertDate(item["eventEnd"]).day)]
+          =[Event(item["eventName"], item["eventClear"] == 0 ? false : true)];
+        }
+      }
 
       print(_kEventSource);
     });
