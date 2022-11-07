@@ -214,10 +214,10 @@ class _TabCalenderState extends State<TabCalender> {
               weekendTextStyle: const TextStyle(color: Colors.red),
               todayDecoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.deepPurpleAccent,
-                border: Border.all(color: Colors.deepPurple, width: 1.5),
+                color: const Color(0xffB1B2FF),
+                border: Border.all(color: const Color(0xffB1B2FF), width: 1.5),
               ),
-              canMarkersOverflow: false,
+              canMarkersOverflow: true,
               markerDecoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.cyan,
@@ -243,12 +243,13 @@ class _TabCalenderState extends State<TabCalender> {
                         vertical: 4.0,
                       ),
                       decoration: BoxDecoration(
-                        border: Border.all(),
+                        border: Border.all(color: Colors.white),
+                        color: value[index].complete ? const Color(0xffBCCEF8) : const Color(0xffFFACC7),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: ListTile(
                         onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}'),
+                        title: Text('${value[index]}',style: const TextStyle(color: Colors.white),),
                       ),
                     );
                   },
