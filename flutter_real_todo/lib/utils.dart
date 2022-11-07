@@ -15,7 +15,7 @@ class Event {
   const Event(this.title, this.complete);
 
   @override
-  String toString() => title;
+  String toString() => "$title : $complete";
 }
 
 /// Example events.
