@@ -214,13 +214,13 @@ class _TabCalenderState extends State<TabCalender> {
               weekendTextStyle: const TextStyle(color: Colors.red),
               todayDecoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.deepPurple,
+                color: Colors.deepPurpleAccent,
                 border: Border.all(color: Colors.deepPurple, width: 1.5),
               ),
               canMarkersOverflow: false,
               markerDecoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.indigoAccent,
+                color: Colors.cyan,
               )
             ),
             onDaySelected: _onDaySelected,

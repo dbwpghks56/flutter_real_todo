@@ -26,25 +26,27 @@ class MyController extends GetxController {
     }
 
     await http.get(url).then((value) {
+      _kEventSource = {};
+
       eventModel.events(json.decode(value.body));
 
       for(var item in eventModel.events) {
-        if(_kEventSource.containsKey(DateTime.utc(convertDate(item["eventEnd"]).year, convertDate(item["eventEnd"]).month, convertDate(item["eventEnd"]).day))) {
-          _kEventSource.update(DateTime.utc(convertDate(item["eventEnd"]).year, convertDate(item["eventEnd"]).month, convertDate(item["eventEnd"]).day), (value)  {
-            print("same value : $value");
+        DateTime dateFormat = DateTime.utc(convertDate(item["eventEnd"]).year, convertDate(item["eventEnd"]).month, convertDate(item["eventEnd"]).day);
+
+        if(_kEventSource.containsKey(dateFormat)) {
+          _kEventSource.update(dateFormat, (value)  {
             value.add(Event(item["eventName"], item["eventClear"] == 0 ? false : true));
             return value;
           });
         }
         else {
-          _kEventSource[DateTime.utc(convertDate(item["eventEnd"]).year, convertDate(item["eventEnd"]).month, convertDate(item["eventEnd"]).day)]
+          _kEventSource[dateFormat]
           =[Event(item["eventName"], item["eventClear"] == 0 ? false : true)];
         }
       }
 
       print(_kEventSource);
     });
-
   }
 
   DateTime convertDate(String str) {
@@ -94,6 +96,7 @@ class MyController extends GetxController {
               snackPosition: SnackPosition.BOTTOM,
             )
         );
+        getEvents();
       } else {
         Get.showSnackbar(
             const GetSnackBar(
