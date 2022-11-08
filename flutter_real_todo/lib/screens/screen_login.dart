@@ -33,6 +33,7 @@ class ScreenLogin extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 5.0),
               child : TextField(
                 controller: emailController,
+                autofocus: true,
                 decoration: const InputDecoration(
                   label: Text("email"),
                   border: InputBorder.none,

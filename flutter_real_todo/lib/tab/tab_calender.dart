@@ -18,9 +18,9 @@ class _TabCalenderState extends State<TabCalender> {
   var eventName = TextEditingController();
   var eventService = Get.put(MyController());
   final eventModel = Get.put(RxEventModel());
-
+  final rangeColor =  const Color(0xff8FBDD3);
   late final ValueNotifier<List<Event>> _selectedEvents;
-  CalendarFormat _calendarFormat = CalendarFormat.month;
+  final CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
       .toggledOff; // Can be toggled on/off by longpressing a date
   DateTime _focusedDay = DateTime.now();
@@ -105,7 +105,7 @@ class _TabCalenderState extends State<TabCalender> {
                     width: 300,
                     child: DateTimePicker(
                       type: DateTimePickerType.Date,
-                      startDate: DateTime.now(),
+                      initialSelectedDate: _rangeStart ?? _selectedDay,
                       datePickerTitle: "약속 시작 일",
                       onDateChanged: (date) {
                         print(date);
@@ -118,7 +118,7 @@ class _TabCalenderState extends State<TabCalender> {
                     width: 300,
                     child: DateTimePicker(
                       type: DateTimePickerType.Date,
-                      startDate: DateTime.now(),
+                      initialSelectedDate: _rangeEnd ?? _selectedDay,
                       datePickerTitle: "끝나는 일",
                       onDateChanged: (date) {
                         print(date);
@@ -188,6 +188,7 @@ class _TabCalenderState extends State<TabCalender> {
             firstDay: kFirstDay,
             lastDay: kLastDay,
             locale: 'ko-KR',
+            calendarFormat: CalendarFormat.month,
             focusedDay: _focusedDay,
             selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
             rangeStartDay: _rangeStart,
@@ -209,6 +210,22 @@ class _TabCalenderState extends State<TabCalender> {
               formatButtonVisible: false,
             ),
             calendarStyle: CalendarStyle(
+              selectedDecoration:  BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0xffFFB9B9),
+                border: Border.all(color: const Color(0xffFFB9B9), width: 1.5),
+              ),
+              rangeHighlightColor: rangeColor,
+              rangeStartDecoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color:  rangeColor,
+                border: Border.all(color: rangeColor, width: 1.5),
+              ),
+              rangeEndDecoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: rangeColor,
+                border: Border.all(color: rangeColor, width: 1.5),
+              ),
               holidayTextStyle: const TextStyle(color: Colors.red),
               defaultTextStyle: const TextStyle(color: Colors.black),
               weekendTextStyle: const TextStyle(color: Colors.red),
@@ -250,6 +267,25 @@ class _TabCalenderState extends State<TabCalender> {
                       child: ListTile(
                         onTap: () => print('${value[index]}'),
                         title: Text('${value[index]}',style: const TextStyle(color: Colors.white),),
+                        subtitle: Text(value[index].start == value[index].end ? convertFormat(value[index].end) :
+                        "${convertFormat(value[index].start)} ~ ${convertFormat(value[index].end)}", style: const TextStyle(color: Colors.white),),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            InkWell(onTap: () {
+                              print("check");
+                            },
+                            child: value[index].complete ? const Icon(Icons.check_box_outlined, color: Colors.white,) :
+                            const Icon(Icons.check_box_outline_blank, color: Colors.white,),
+                            ),
+                            const Padding(padding: EdgeInsets.only(right: 10)),
+                            InkWell(onTap: () {
+                              eventService.deleteEvent(value[index].eid);
+                            },
+                              child: const Icon(Icons.delete, color: Colors.white,),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -261,5 +297,9 @@ class _TabCalenderState extends State<TabCalender> {
       ),
     );
   }
+}
+
+String convertFormat(DateTime date) {
+  return "${date.year}-${date.month}-${date.day}";
 }
 

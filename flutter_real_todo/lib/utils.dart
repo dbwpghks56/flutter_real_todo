@@ -13,7 +13,9 @@ class Event {
   final String title;
   final bool complete;
   final int eid;
-  const Event(this.title, this.complete, this.eid);
+  final DateTime start;
+  final DateTime end;
+  const Event(this.title, this.complete, this.eid, this.start, this.end);
 
   @override
   String toString() => "$title : $complete";
@@ -28,7 +30,8 @@ final kEvents = LinkedHashMap<DateTime, List<Event>>(
 
 final _kEventSource = {
   for (var item in eventModel.events)
-    DateTime.parse(item["eventEnd"]) : [Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"])]
+    DateTime.parse(item["eventEnd"]) : [Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"],
+        item["eventStart"], item["eventEnd"])]
 };
 
 int getHashCode(DateTime key) {

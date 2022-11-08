@@ -35,17 +35,46 @@ class MyController extends GetxController {
 
         if(_kEventSource.containsKey(dateFormat)) {
           _kEventSource.update(dateFormat, (value)  {
-            value.add(Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"]));
+            value.add(Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"], convertDate(item["eventStart"]), convertDate(item["eventEnd"])));
             return value;
           });
         }
         else {
           _kEventSource[dateFormat]
-          =[Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"])];
+          =[Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"], convertDate(item["eventStart"]), convertDate(item["eventEnd"]))];
         }
       }
 
       print(_kEventSource);
+    });
+  }
+  Future<void> deleteEvent(int id) async {
+    var url = Uri.parse("$defaultUrl/event/deleteEvent");
+    try {
+      if(Platform.isAndroid || Platform.isIOS) {
+        url = Uri.parse("$mobileUrl/event/deleteEvent");
+      }
+    } catch(e) {
+      print(e);
+    }
+
+    await http.delete(
+        url,
+        headers: {"Content-Type" : "application/json"},
+        body: json.encode({
+          "eid" : id,
+        })
+    ).then((value) {
+      if(value.statusCode == 200) {
+        Get.showSnackbar(
+          const GetSnackBar(
+            title: "Event",
+            message: "Event 삭제 성공",
+            duration: Duration(seconds: 2),
+          ),
+        );
+        getEvents();
+      }
     });
   }
 
