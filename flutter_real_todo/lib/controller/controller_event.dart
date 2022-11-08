@@ -35,13 +35,13 @@ class MyController extends GetxController {
 
         if(_kEventSource.containsKey(dateFormat)) {
           _kEventSource.update(dateFormat, (value)  {
-            value.add(Event(item["eventName"], item["eventClear"] == 0 ? false : true));
+            value.add(Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"]));
             return value;
           });
         }
         else {
           _kEventSource[dateFormat]
-          =[Event(item["eventName"], item["eventClear"] == 0 ? false : true)];
+          =[Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"])];
         }
       }
 

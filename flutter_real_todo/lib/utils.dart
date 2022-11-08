@@ -12,7 +12,8 @@ RxEventModel eventModel = Get.put(RxEventModel());
 class Event {
   final String title;
   final bool complete;
-  const Event(this.title, this.complete);
+  final int eid;
+  const Event(this.title, this.complete, this.eid);
 
   @override
   String toString() => "$title : $complete";
@@ -27,7 +28,7 @@ final kEvents = LinkedHashMap<DateTime, List<Event>>(
 
 final _kEventSource = {
   for (var item in eventModel.events)
-    DateTime.parse(item["eventEnd"]) : [Event(item["eventName"], item["eventClear"] == 0 ? false : true)]
+    DateTime.parse(item["eventEnd"]) : [Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"])]
 };
 
 int getHashCode(DateTime key) {
