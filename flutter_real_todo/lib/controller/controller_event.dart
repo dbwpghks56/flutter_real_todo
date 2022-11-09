@@ -48,6 +48,37 @@ class MyController extends GetxController {
       print(_kEventSource);
     });
   }
+  Future<void> updateComplete(int id, int complete) async {
+    var url = Uri.parse("$defaultUrl/event/updateClear");
+    try {
+      if(Platform.isAndroid || Platform.isIOS) {
+        url = Uri.parse("$mobileUrl/event/updateClear");
+      }
+    } catch(e) {
+      print(e);
+    }
+
+    await http.put(
+      url,
+      headers: {"Content-Type" : "application/json"},
+      body: json.encode({
+        "eid" : id,
+        "eventClear" : complete
+      })
+    ).then((value) {
+      if(value.statusCode == 200) {
+        Get.showSnackbar(
+          const GetSnackBar(
+            title: "Event",
+            message: "update Complete",
+            duration: Duration(seconds: 2),
+          ),
+        );
+        getEvents();
+      }
+    });
+  }
+
   Future<void> deleteEvent(int id) async {
     var url = Uri.parse("$defaultUrl/event/deleteEvent");
     try {

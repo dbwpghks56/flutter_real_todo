@@ -272,15 +272,15 @@ class _TabCalenderState extends State<TabCalender> {
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            InkWell(onTap: () {
-                              print("check");
+                            InkWell(onTap: () async {
+                              await eventService.updateComplete(value[index].eid, value[index].complete ? 0 : 1);
                             },
                             child: value[index].complete ? const Icon(Icons.check_box_outlined, color: Colors.white,) :
                             const Icon(Icons.check_box_outline_blank, color: Colors.white,),
                             ),
                             const Padding(padding: EdgeInsets.only(right: 10)),
-                            InkWell(onTap: () {
-                              eventService.deleteEvent(value[index].eid);
+                            InkWell(onTap: () async {
+                              await eventService.deleteEvent(value[index].eid);
                             },
                               child: const Icon(Icons.delete, color: Colors.white,),
                             ),
