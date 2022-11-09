@@ -20,7 +20,6 @@ class _TabCalenderState extends State<TabCalender> {
   final eventModel = Get.put(RxEventModel());
   final rangeColor =  const Color(0xff8FBDD3);
   late final ValueNotifier<List<Event>> _selectedEvents;
-  final CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
       .toggledOff; // Can be toggled on/off by longpressing a date
   DateTime _focusedDay = DateTime.now();
@@ -212,8 +211,8 @@ class _TabCalenderState extends State<TabCalender> {
             calendarStyle: CalendarStyle(
               selectedDecoration:  BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xffFFB9B9),
-                border: Border.all(color: const Color(0xffFFB9B9), width: 1.5),
+                color: const Color(0xffB1B2FF),
+                border: Border.all(color: const Color(0xffB1B2FF), width: 1.5),
               ),
               rangeHighlightColor: rangeColor,
               rangeStartDecoration: BoxDecoration(
@@ -231,27 +230,28 @@ class _TabCalenderState extends State<TabCalender> {
               weekendTextStyle: const TextStyle(color: Colors.red),
               todayDecoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xffB1B2FF),
-                border: Border.all(color: const Color(0xffB1B2FF), width: 1.5),
+                color: const Color(0xffD3CEDF),
+                border: Border.all(color: const Color(0xffD3CEDF), width: 1.5),
               ),
               canMarkersOverflow: true,
               markerDecoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.cyan,
-              )
+              ),
             ),
             onDaySelected: _onDaySelected,
             onRangeSelected: _onRangeSelected,
             onPageChanged: (focusedDay) {
               _focusedDay = focusedDay;
             },
+
           ),
           const SizedBox(height: 8.0),
           Expanded(
             child: ValueListenableBuilder<List<Event>>(
               valueListenable: _selectedEvents,
               builder: (context, value, _) {
-                return ListView.builder(
+                return value.isNotEmpty ? ListView.builder(
                   itemCount: value.length,
                   itemBuilder: (context, index) {
                     return Container(
@@ -261,14 +261,15 @@ class _TabCalenderState extends State<TabCalender> {
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.white),
-                        color: value[index].complete ? const Color(0xffBCCEF8) : const Color(0xffFFACC7),
+                        color: value[index].complete ? const Color(0xffBCCEF8) : const Color(0xffD3CEDF),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: ListTile(
                         onTap: () => print('${value[index]}'),
                         title: Text('${value[index]}',style: const TextStyle(color: Colors.white),),
                         subtitle: Text(value[index].start == value[index].end ? convertFormat(value[index].end) :
-                        "${convertFormat(value[index].start)} ~ ${convertFormat(value[index].end)}", style: const TextStyle(color: Colors.white),),
+                        "${convertFormat(value[index].start)} ~ ${convertFormat(value[index].end)}",
+                          style: const TextStyle(color: Colors.white),),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -289,6 +290,19 @@ class _TabCalenderState extends State<TabCalender> {
                       ),
                     );
                   },
+                ) :
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text("등록된 일정이 없습니다.",
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),

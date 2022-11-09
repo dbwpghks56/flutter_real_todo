@@ -11,7 +11,8 @@ import '../utils.dart';
 class MyController extends GetxController {
   final eventModel = Get.put(RxEventModel());
   final userModel = Get.put(UserController());
-  Map<DateTime,List<Event>> _kEventSource = {};
+  final _kEventSource = {}.obs;
+  final kEvents = {}.obs;
   final defaultUrl = "http://localhost:8080";
   final mobileUrl = "http://10.0.2.2:8080";
 
@@ -26,7 +27,7 @@ class MyController extends GetxController {
     }
 
     await http.get(url).then((value) {
-      _kEventSource = {};
+      _kEventSource.clear();
 
       eventModel.events(json.decode(value.body));
 
@@ -44,8 +45,6 @@ class MyController extends GetxController {
           =[Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"], convertDate(item["eventStart"]), convertDate(item["eventEnd"]))];
         }
       }
-
-      print(_kEventSource);
     });
   }
   Future<void> updateComplete(int id, int complete) async {
@@ -71,7 +70,7 @@ class MyController extends GetxController {
           const GetSnackBar(
             title: "Event",
             message: "update Complete",
-            duration: Duration(seconds: 2),
+            duration: Duration(seconds: 1),
           ),
         );
         getEvents();
@@ -114,9 +113,7 @@ class MyController extends GetxController {
   }
 
   List<Event>? showEvent(day) {
-    final kEvents = LinkedHashMap<DateTime, List<Event>>(
-      equals: isSameDay,
-    )..addAll(_kEventSource);
+    kEvents.addAll(_kEventSource);
 
     return kEvents[day];
   }
