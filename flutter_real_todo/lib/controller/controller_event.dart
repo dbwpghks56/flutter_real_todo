@@ -30,7 +30,7 @@ class MyController extends GetxController {
       _kEventSource.clear();
 
       eventModel.events(json.decode(value.body));
-
+      print(userModel.user.value.id);
       for(var item in eventModel.events) {
         DateTime dateFormat = DateTime.utc(convertDate(item["eventEnd"]).year, convertDate(item["eventEnd"]).month, convertDate(item["eventEnd"]).day);
 

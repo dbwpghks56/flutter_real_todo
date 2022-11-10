@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_real_todo/model/model_todo.dart';
+import 'package:flutter_real_todo/utils.dart';
 import 'package:get/get.dart';
 import 'package:radar_chart/radar_chart.dart';
 import '../controller/controller_todo.dart';
@@ -156,12 +157,13 @@ class _ScreenMainState extends State<ScreenMain> {
                                   Obx(() {
                                     return SizedBox(
                                       width: 290,
-                                      height: 150,
+                                      height: 95,
                                       child: BlockPicker(
                                         pickerColor: Color(todoModel.tabColor.value),
                                         onColorChanged: (color) {
                                           todoModel.tabColor(color.value);
                                         },
+                                        availableColors: colorPickerColors,
                                       ),
                                     );
                                   }),

@@ -96,6 +96,7 @@ class _TabCalenderState extends State<TabCalender> {
           Get.dialog(Dialog(
             child:
             SizedBox(
+              height: 500,
               width: 350,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -141,15 +142,6 @@ class _TabCalenderState extends State<TabCalender> {
                           hintText: "약속이름을 설정해주세요."
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 300,
-                    height: 200,
-                    child:  BlockPicker(
-                        pickerColor: Color(todoModel.tabColor.value),
-                        onColorChanged: (color) {
-                          todoModel.tabColor(color.value);
-                        }),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

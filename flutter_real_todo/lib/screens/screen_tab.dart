@@ -19,7 +19,7 @@ class _ScreenTabState extends State<ScreenTab> {
   final List<Widget> _tabs = [
     ScreenMain(),
     TabCalender(),
-    TabMyPage()
+    TabMyPage(),
   ];
 
   @override
@@ -49,7 +49,7 @@ class _ScreenTabState extends State<ScreenTab> {
         onTap: (index) async {
           setState(() {
             _currentIndex = index;
-            if (_currentIndex == 1) {
+            if (_currentIndex == 1 ) {
               appzonzae = false;
             }
             else {
@@ -60,7 +60,7 @@ class _ScreenTabState extends State<ScreenTab> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.pending_actions_outlined), label: "Todo"),
           BottomNavigationBarItem(icon: Icon(Icons.calendar_month_outlined), label: "calendar"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "myPage")
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "myPage"),
         ],
       ),
       body: _tabs[_currentIndex],

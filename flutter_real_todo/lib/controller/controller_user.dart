@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_real_todo/controller/controller_event.dart';
 import 'package:flutter_real_todo/model/model_user.dart';
 import 'package:flutter_real_todo/screens/screen_login.dart';
 import 'package:flutter_real_todo/screens/screen_main.dart';
@@ -92,6 +93,7 @@ class UserController extends GetxController {
         message: "회원가입에 성공하셨습니다.",
         duration: Duration(seconds: 2),
       ));
+      Get.off(() => ScreenLogin());
     });
   }
 }

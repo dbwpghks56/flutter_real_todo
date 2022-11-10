@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'dart:collection';
+import 'dart:ui';
 import 'package:flutter_real_todo/model/model_event.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -20,6 +21,21 @@ class Event {
   @override
   String toString() => "$title : $complete";
 }
+
+const colorPickerColors = [
+  Color(0xffF4EEFF),
+  Color(0xffDCD6F7),
+  Color(0xffA6B1E1),
+  Color(0xff424874),
+  Color(0xffB2C8DF),
+  Color(0xff6E85B7),
+  Color(0xffC4D7E0),
+  Color(0xffF8F9D7),
+  Color(0xffB1B2FF),
+  Color(0xffAAC4FF),
+  Color(0xffD2DAFF),
+  Color(0xffEEF1FF),
+];
 
 /// Example events.
 ///
