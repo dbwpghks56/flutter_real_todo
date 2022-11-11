@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_real_todo/controller/controller_event.dart';
 import 'package:flutter_real_todo/model/model_user.dart';
+import 'package:flutter_real_todo/model/model_users.dart';
 import 'package:flutter_real_todo/screens/screen_login.dart';
 import 'package:flutter_real_todo/screens/screen_main.dart';
 import 'package:flutter_real_todo/screens/screen_tab.dart';
@@ -14,6 +15,7 @@ import 'controller_todo.dart';
 
 class UserController extends GetxController {
   final user = User().obs;
+  final usersModel = Get.put(RxUsersModel());
   final defaultUrl = "http://localhost:8080";
   final mobileUrl = "http://10.0.2.2:8080";
 
@@ -69,6 +71,25 @@ class UserController extends GetxController {
     prefs.setString("password", "");
     prefs.setBool("isLogin", false);
     Get.off(() => ScreenLogin());
+  }
+
+  Future<void> getUsers(String uuid) async {
+    var url = Uri.parse("$defaultUrl/user/findUser/$uuid");
+    try {
+      if(Platform.isAndroid || Platform.isIOS) {
+        url = Uri.parse("$mobileUrl/user/findUser/$uuid");
+      }
+    } catch(e) {
+      print(e);
+    }
+
+    await http.get(url).then((value) {
+      if(value.statusCode == 200) {
+        // print(value.body);
+        usersModel.users(json.decode(value.body));
+        print(usersModel.users[0]["uuid"]);
+      }
+    });
   }
 
   Future<void> SignUp(String email, String password) async {
