@@ -52,16 +52,26 @@ class UserController extends GetxController {
         "upassword" : password
       })
     ).then((value) {
-      user.update((val) {
-        val?.email = jsonDecode(value.body)["id"];
-        val?.password = jsonDecode(value.body)["password"];
-        val?.id = jsonDecode(value.body)["pid"];
-        val?.cart = jsonDecode(value.body)["cart"];
-      });
-      print(user.value.cart);
-      prefs.setString("id", email);
-      prefs.setString("password", password);
-      prefs.setBool("isLogin", true);
+      if(value.statusCode == 200) {
+        user.update((val) {
+          val?.email = jsonDecode(value.body)["id"];
+          val?.password = jsonDecode(value.body)["password"];
+          val?.id = jsonDecode(value.body)["pid"];
+          val?.cart = jsonDecode(value.body)["cart"];
+        });
+        print(user.value.cart);
+        prefs.setString("id", email);
+        prefs.setString("password", password);
+        prefs.setBool("isLogin", true);
+      }
+      else {
+        Get.showSnackbar(
+          const GetSnackBar(
+            title: "Login",
+            message: "Login Fail",
+          )
+        );
+      }
     });
   }
 

@@ -460,6 +460,7 @@ class _ScreenMainState extends State<ScreenMain> {
       value.add(0.0);
     }
     int startH = parseInt(todoModel.todos[index]["startTime"]);
+    int endH = parseInt(todoModel.todos[index]["endTime"]);
     double durationT = todoModel.todos[index]["durationTime"];
 
     if((startH ~/ 10) > 0) {
@@ -467,6 +468,13 @@ class _ScreenMainState extends State<ScreenMain> {
       for(int i = startH; i <= startH+durationT; i++) {
         value.insert(i, 1.0);
       }
+    } else if(startH == 9) {
+
+
+      for(int i = 0; i <= durationT-1; i++) {
+        value.insert(i, 1.0);
+      }
+      value.insert(23, 1.0);
     } else if((startH ~/ 10) == 0)  {
       startH += 14;
 
