@@ -21,7 +21,7 @@ class _ScreenTabState extends State<ScreenTab> {
     ScreenMain(),
     TabCalender(),
     TabSearchUser(),
-    TabMyPage(),
+    TabMyPage(searchUser: null,),
   ];
 
   @override
@@ -51,11 +51,8 @@ class _ScreenTabState extends State<ScreenTab> {
         onTap: (index) async {
           setState(() {
             _currentIndex = index;
-            if (_currentIndex == 1 ) {
+            if (_currentIndex == 1 || _currentIndex == 2 ) {
               appzonzae = false;
-            }
-            else if(_currentIndex == 2) {
-              Get.to(() => TabSearchUser());
             }
             else {
               appzonzae = true;

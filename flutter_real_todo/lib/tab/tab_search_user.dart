@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
 import 'package:flutter_real_todo/model/model_users.dart';
+import 'package:flutter_real_todo/tab/tab_my_page.dart';
 import 'package:get/get.dart';
 
 class TabSearchUser extends StatelessWidget {
@@ -45,6 +46,9 @@ class TabSearchUser extends StatelessWidget {
           itemBuilder: (context, index) {
             return ListTile(
               title: Text(usersModel.users[index]["uuid"].toString()),
+              onTap: () {
+                Get.to(() => TabMyPage(searchUser: usersModel.users[index],));
+              },
             );
           },
         ) : Center(
