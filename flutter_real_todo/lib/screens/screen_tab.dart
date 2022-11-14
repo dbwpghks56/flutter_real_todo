@@ -16,7 +16,7 @@ class _ScreenTabState extends State<ScreenTab> {
   int _currentIndex = 0;
   final userController = Get.put(UserController());
   final eventController = Get.put(MyController());
-  bool appzonzae = true;
+  bool _flagAppbar = true;
   final List<Widget> _tabs = [
     ScreenMain(),
     TabCalender(),
@@ -27,7 +27,7 @@ class _ScreenTabState extends State<ScreenTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appzonzae ? AppBar(
+      appBar: _flagAppbar ? AppBar(
         title: const Text("멋쟁이 todo"),
         actions: [
           SizedBox(
@@ -51,11 +51,11 @@ class _ScreenTabState extends State<ScreenTab> {
         onTap: (index) async {
           setState(() {
             _currentIndex = index;
-            if (_currentIndex == 1 || _currentIndex == 2 ) {
-              appzonzae = false;
+            if (_currentIndex == 0 ) {
+              _flagAppbar = true;
             }
             else {
-              appzonzae = true;
+              _flagAppbar = false;
             }
           });
         },

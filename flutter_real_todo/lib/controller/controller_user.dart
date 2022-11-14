@@ -92,14 +92,18 @@ class UserController extends GetxController {
     } catch(e) {
       print(e);
     }
-
-    await http.get(url).then((value) {
-      if(value.statusCode == 200) {
-        // print(value.body);
-        usersModel.users(json.decode(value.body));
-        print(usersModel.users[0]["uuid"]);
-      }
-    });
+    if(uuid == "") {
+      usersModel.users.clear();
+    }
+    else {
+      await http.get(url).then((value) {
+        if (value.statusCode == 200) {
+          // print(value.body);
+          usersModel.users(json.decode(value.body));
+          print(usersModel.users[0]["uuid"]);
+        }
+      });
+    }
   }
 
   Future<void> SignUp(String email, String password) async {
