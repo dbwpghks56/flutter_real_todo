@@ -460,7 +460,6 @@ class _ScreenMainState extends State<ScreenMain> {
       value.add(0.0);
     }
     int startH = parseInt(todoModel.todos[index]["startTime"]);
-    int endH = parseInt(todoModel.todos[index]["endTime"]);
     double durationT = todoModel.todos[index]["durationTime"];
 
     if((startH ~/ 10) > 0) {
