@@ -21,7 +21,7 @@ class _ScreenTabState extends State<ScreenTab> {
     ScreenMain(),
     TabCalender(),
     TabSearchUser(),
-    TabMyPage(searchUser: null,),
+    TabMyPage(searchUser: null),
   ];
 
   @override

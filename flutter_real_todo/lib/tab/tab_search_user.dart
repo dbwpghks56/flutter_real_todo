@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_real_todo/controller/controller_follow.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
 import 'package:flutter_real_todo/model/model_users.dart';
 import 'package:flutter_real_todo/tab/tab_my_page.dart';
@@ -9,6 +10,7 @@ class TabSearchUser extends StatelessWidget {
   final searchText = TextEditingController();
   final userService = Get.put(UserController());
   final usersModel = Get.put(RxUsersModel());
+  final followService = Get.put(FollowController());
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +48,9 @@ class TabSearchUser extends StatelessWidget {
           itemBuilder: (context, index) {
             return ListTile(
               title: Text(usersModel.users[index]["uuid"].toString()),
-              onTap: () {
-                Get.to(() => TabMyPage(searchUser: usersModel.users[index],));
+              onTap: () async {
+                await followService.checkFollow(usersModel.users[index]["id"].toString(), userService.user.value.id.toString());
+                Get.to(() => TabMyPage(searchUser: usersModel.users[index]));
               },
             );
           },
