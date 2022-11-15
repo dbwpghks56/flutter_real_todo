@@ -110,7 +110,7 @@ class TabMyPage extends StatelessWidget {
                                 Obx(() {
                                   return followController.check.isTrue ? ElevatedButton(
                                     onPressed: () async {
-                                      followController.insertFollow(
+                                      followController.unFollow(
                                           searchUser["id"].toString(), userController.user.value.id.toString());
                                     },
                                     style: ElevatedButton.styleFrom(

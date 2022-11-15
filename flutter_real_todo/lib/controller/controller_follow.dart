@@ -48,6 +48,42 @@ class FollowController extends GetxController {
     });
   }
 
+  Future<void> unFollow(String target, String userid) async {
+    var url = Uri.parse("$defaultUrl/follow/unFollow");
+    try {
+      if(Platform.isAndroid || Platform.isIOS) {
+        url = Uri.parse("$mobileUrl/follow/unFollow");
+      }
+    } catch(e) {
+      print(e);
+    }
+
+    await http.delete(
+      url,
+      headers: {"Content-Type" : "application/json"},
+      body: json.encode({
+        "target" : {
+          "id" : target
+        },
+        "users" : {
+          "id" : userid
+        }
+      }),
+    ).then((value) {
+      if(value.statusCode == 200) {
+        Get.showSnackbar(
+            const GetSnackBar(
+              title: "Follow",
+              message: "unFollow Success",
+              duration: Duration(seconds: 1),
+            )
+        );
+        _follows.remove(target);
+        check(false);
+      }
+    });
+  }
+
   Future<void> checkFollow(String target, String userId) async {
     var url = Uri.parse("$defaultUrl/follow/checkFollow/$target/$userId");
     try {
