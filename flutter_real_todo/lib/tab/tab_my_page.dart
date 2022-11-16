@@ -4,9 +4,12 @@ import 'package:flutter_real_todo/controller/controller_follow.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
 import 'package:get/get.dart';
 
+import '../controller/controller_event.dart';
+
 class TabMyPage extends StatelessWidget {
   final userController = Get.put(UserController());
   final followController = Get.put(FollowController());
+  var eventService = Get.put(MyController());
   final searchUser;
 
   TabMyPage({required this.searchUser});
@@ -141,7 +144,54 @@ class TabMyPage extends StatelessWidget {
             BoxyId(
                 id: #content,
                 child: Container(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 365,
+                        child: ListView.builder(
+                          padding: const EdgeInsets.only(top: 110, left: 10, right: 10),
+                          itemCount: eventService.kEventSource.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              child: ListTile(
+                                title: Text("${eventService.kEventSource.keys.elementAt(index)}"),
+                                onTap: () async {
+                                  eventService.dateEvent(
+                                      eventService.kEventSource[eventService.kEventSource.keys.elementAt(index)]);
+                                  print("${eventService.dateEvent.value}");
+                                },
+                              )
+                            );
+                          },
+                        )
+                      ),
+                      Container(
+                        width: 1.5,
+                        height: MediaQuery.of(context).size.height,
+                        color: Colors.indigoAccent,
+                      ),
+                      Obx(() {
+                        return SizedBox(
+                            width: 365,
+                            child: ListView.builder(
+                              itemCount: eventService.dateEvent.length,
+                              itemBuilder: (context, index) {
+                                return Card(
+                                    child: ListTile(
+                                      title: Text("${eventService.dateEvent[index]}"),
+                                      onTap: () {
 
+                                      },
+                                    )
+                                );
+                              },
+                            )
+                        );
+                      }),
+                    ],
+                  ),
                 )
             ),
             BoxyId(

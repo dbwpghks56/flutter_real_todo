@@ -11,8 +11,9 @@ import '../utils.dart';
 class MyController extends GetxController {
   final eventModel = Get.put(RxEventModel());
   final userModel = Get.put(UserController());
-  final _kEventSource = {}.obs;
+  final kEventSource = {}.obs;
   final kEvents = {}.obs;
+  final dateEvent = [].obs;
   final defaultUrl = "http://localhost:8080";
   final mobileUrl = "http://10.0.2.2:8080";
 
@@ -27,21 +28,21 @@ class MyController extends GetxController {
     }
 
     await http.get(url).then((value) {
-      _kEventSource.clear();
+      kEventSource.clear();
 
       eventModel.events(json.decode(value.body));
       print(userModel.user.value.id);
       for(var item in eventModel.events) {
         DateTime dateFormat = DateTime.utc(convertDate(item["eventEnd"]).year, convertDate(item["eventEnd"]).month, convertDate(item["eventEnd"]).day);
 
-        if(_kEventSource.containsKey(dateFormat)) {
-          _kEventSource.update(dateFormat, (value)  {
+        if(kEventSource.containsKey(dateFormat)) {
+          kEventSource.update(dateFormat, (value)  {
             value.add(Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"], convertDate(item["eventStart"]), convertDate(item["eventEnd"])));
             return value;
           });
         }
         else {
-          _kEventSource[dateFormat]
+          kEventSource[dateFormat]
           =[Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"], convertDate(item["eventStart"]), convertDate(item["eventEnd"]))];
         }
       }
@@ -113,7 +114,7 @@ class MyController extends GetxController {
   }
 
   List<Event>? showEvent(day) {
-    kEvents.addAll(_kEventSource);
+    kEvents.addAll(kEventSource);
 
     return kEvents[day];
   }
