@@ -71,9 +71,13 @@ class TabMyPage extends StatelessWidget {
           ),
         ],
       )) : Scaffold(
-      appBar: AppBar(
-        title: Text(searchUser["uuid"].toString().split("@")[0]),
-      ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.keyboard_backspace, color: Colors.white,),
+          onPressed: () {
+            Get.back();
+          },
+          backgroundColor: const Color(0xff3B44F6),
+        ),
         body: CustomBoxy(
           delegate: MyBoxy(),
           children: [
@@ -151,18 +155,30 @@ class TabMyPage extends StatelessWidget {
                       SizedBox(
                         width: 365,
                         child: ListView.builder(
-                          padding: const EdgeInsets.only(top: 110, left: 10, right: 10),
+                          padding: const EdgeInsets.only(top: 120, left: 10, right: 10),
                           itemCount: eventService.kEventSource.length,
                           itemBuilder: (context, index) {
-                            return Card(
-                              child: ListTile(
-                                title: Text("${eventService.kEventSource.keys.elementAt(index)}"),
-                                onTap: () async {
-                                  eventService.dateEvent(
-                                      eventService.kEventSource[eventService.kEventSource.keys.elementAt(index)]);
-                                  print("${eventService.dateEvent.value}");
-                                },
-                              )
+                            return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Colors.indigoAccent),
+                                  color: Colors.white,
+                                  boxShadow: [BoxShadow(
+                                    color: Colors.indigoAccent.withOpacity(0.8),
+                                    spreadRadius: 0.5,
+                                    blurRadius: 0.5,
+                                    offset: const Offset(0, 1),
+                                  )],
+                                ),
+                                margin: const EdgeInsets.only(bottom: 13),
+                                child: ListTile(
+                                  title: Text("${eventService.kEventSource.keys.elementAt(index)}"),
+                                  onTap: () async {
+                                    eventService.dateEvent(
+                                        eventService.kEventSource[eventService.kEventSource.keys.elementAt(index)]);
+                                    print("${eventService.dateEvent.value}");
+                                  },
+                                )
                             );
                           },
                         )
@@ -173,21 +189,33 @@ class TabMyPage extends StatelessWidget {
                         color: Colors.indigoAccent,
                       ),
                       Obx(() {
-                        return SizedBox(
-                            width: 365,
-                            child: ListView.builder(
-                              itemCount: eventService.dateEvent.length,
-                              itemBuilder: (context, index) {
-                                return Card(
-                                    child: ListTile(
-                                      title: Text("${eventService.dateEvent[index]}"),
-                                      onTap: () {
+                        return Container(
+                          width: 700,
+                          child: ListView.builder(
+                            padding: const EdgeInsets.only(top: 20, left: 30),
+                            itemCount: eventService.dateEvent.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.white,
+                                  boxShadow: [BoxShadow(
+                                    color: Colors.grey.withOpacity(0.8),
+                                    spreadRadius: 0.5,
+                                    blurRadius: 0.5,
+                                    offset: const Offset(0, 1),
+                                  )],
+                                ),
+                                margin: const EdgeInsets.only(bottom: 13),
+                                child: ListTile(
+                                  title: Text("${eventService.dateEvent[index]}"),
+                                  onTap: () {
 
-                                      },
-                                    )
-                                );
-                              },
-                            )
+                                  },
+                                )
+                              );
+                            },
+                          )
                         );
                       }),
                     ],
@@ -204,7 +232,7 @@ class TabMyPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.3,
                 height: MediaQuery.of(context).size.height * 0.3,
                 child: const CircleAvatar(
-                  backgroundImage: NetworkImage("https://pbs.twimg.com/media/Eq8SyXzUUAAuU9g.jpg"),
+                  backgroundImage: NetworkImage("https://thumb.mt.co.kr/06/2022/08/2022081109301286132_1.jpg/dims/optimize/"),
                 ),
               ),
             ),
