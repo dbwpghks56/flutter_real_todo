@@ -22,7 +22,7 @@ class _ScreenMainState extends State<ScreenMain> {
   var scheduleText = TextEditingController();
   final userController = Get.put(UserController());
   final todoModel = Get.put(RxTodoModel());
-  final todoservice = Get.put(TodoController());
+  final todoService = Get.put(TodoController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _ScreenMainState extends State<ScreenMain> {
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.menu,size: 25,),
           onPressed: () async {
-            todoservice.getTodos();
+            todoService.getTodos();
             Get.bottomSheet(
               Scaffold(
                 appBar: AppBar(
@@ -193,7 +193,7 @@ class _ScreenMainState extends State<ScreenMain> {
                                             todoModel
                                                 .name(scheduleText.text.trim());
                                             scheduleText.text = "";
-                                            todoservice.insertTodo();
+                                            todoService.insertTodo();
                                             Get.back();
                                           },
                                           style: ElevatedButton.styleFrom(
@@ -242,7 +242,7 @@ class _ScreenMainState extends State<ScreenMain> {
                             icon: const Icon(Icons.delete),
                             color: Colors.deepOrangeAccent,
                             onPressed: () {
-                              todoservice.deleteTodo(todoModel.todos[index]);
+                              todoService.deleteTodo(todoModel.todos[index]);
                             },
                           ),
                           onTap: () {
@@ -382,7 +382,7 @@ class _ScreenMainState extends State<ScreenMain> {
                                                 todoModel.name(
                                                     scheduleText.text.trim());
                                                 scheduleText.text = "";
-                                                todoservice.updateTodo(todoModel
+                                                todoService.updateTodo(todoModel
                                                     .todos[index]["id"]);
                                                 Get.back();
                                               },
@@ -426,7 +426,7 @@ class _ScreenMainState extends State<ScreenMain> {
                         child: Text("${index-14}", style: const TextStyle(
                             fontSize: 20
                         ),
-                        )
+                        ),
                     );
                   } else {
                     return PreferredSize(
@@ -446,6 +446,7 @@ class _ScreenMainState extends State<ScreenMain> {
     return List.generate(todoModel.todos.length, (index) {
       return RadarTile(
         values: getValues(index),
+        vertices: null,
         borderColor: Colors.black,
         borderStroke: 0.5,
         backgroundColor: Color(parseInt(todoModel.todos[index]["tabColor"])).withOpacity(0.6),
