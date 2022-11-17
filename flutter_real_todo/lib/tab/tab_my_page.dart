@@ -72,11 +72,11 @@ class TabMyPage extends StatelessWidget {
         ],
       )) : Scaffold(
         floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.keyboard_backspace, color: Colors.white,),
           onPressed: () {
             Get.back();
           },
           backgroundColor: const Color(0xff3B44F6),
+          child: const Icon(Icons.keyboard_backspace, color: Colors.white,),
         ),
         body: CustomBoxy(
           delegate: MyBoxy(),
