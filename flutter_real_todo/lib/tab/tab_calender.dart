@@ -5,7 +5,6 @@ import 'package:flutter_real_todo/model/model_event.dart';
 import 'package:flutter_real_todo/model/model_todo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:get/get.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../utils.dart';
 
 class TabCalender extends StatefulWidget {
@@ -227,8 +226,15 @@ class _TabCalenderState extends State<TabCalender> {
               ),
               canMarkersOverflow: true,
               markerDecoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.indigoAccent,
+                    Color(0xff49a09d)
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 shape: BoxShape.circle,
-                color: Colors.cyan,
               ),
             ),
             onDaySelected: _onDaySelected,

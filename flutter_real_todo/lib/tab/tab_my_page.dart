@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:boxy/boxy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/controller/controller_follow.dart';
@@ -85,7 +87,16 @@ class TabMyPage extends StatelessWidget {
                 id: #header,
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.3,
-                  color: Colors.indigoAccent,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.indigoAccent,
+                        Color(0xff49a09d)
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight
+                    )
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -172,7 +183,9 @@ class TabMyPage extends StatelessWidget {
                                 ),
                                 margin: const EdgeInsets.only(bottom: 13),
                                 child: ListTile(
-                                  title: Text("${eventService.kEventSource.keys.elementAt(index)}"),
+                                  title: Text("${eventService.kEventSource.keys.elementAt(index).toString().split(" ")[0]}"
+                                      "의 일정"),
+
                                   onTap: () async {
                                     eventService.dateEvent(
                                         eventService.kEventSource[eventService.kEventSource.keys.elementAt(index)]);
@@ -184,9 +197,18 @@ class TabMyPage extends StatelessWidget {
                         )
                       ),
                       Container(
-                        width: 1.5,
+                        width: 3.5,
                         height: MediaQuery.of(context).size.height,
-                        color: Colors.indigoAccent,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.indigoAccent,
+                              Color(0xff49a09d)
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          )
+                        ),
                       ),
                       Obx(() {
                         return Container(
