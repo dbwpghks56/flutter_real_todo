@@ -125,28 +125,59 @@ class TabMyPage extends StatelessWidget {
                                     ))
                                   ],
                                 ),
-                                Obx(() {
-                                  return followController.check.isTrue ? ElevatedButton(
-                                    onPressed: () async {
-                                      followController.unFollow(
-                                          searchUser["id"].toString(), userController.user.value.id.toString());
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.deepPurpleAccent,
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        const Text("0 Follower", style: TextStyle(color: Colors.grey),),
+                                        const Padding(padding: EdgeInsets.only(right: 10)),
+                                        Container(
+                                          width: 1,
+                                          height: 10,
+                                          color: Colors.grey,
+                                        ),
+                                        const Padding(padding: EdgeInsets.only(left: 10)),
+                                        const Text("0 Following", style: TextStyle(color: Colors.grey),),
+                                      ],
                                     ),
-                                    child: const Text("UnFollow"),
-                                  ) : ElevatedButton(
-                                      onPressed: () async {
-                                        followController.insertFollow(
-                                            searchUser["id"].toString(), userController.user.value.id.toString());
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.indigoAccent,
-                                      ),
-                                      child: const Text("Follow")
-                                  );
-                                })
-
+                                    const Padding(padding: EdgeInsets.only(bottom: 10)),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Obx(() {
+                                          return followController.check.isTrue ? ElevatedButton(
+                                            onPressed: () async {
+                                              followController.unFollow(
+                                                  searchUser["id"].toString(), userController.user.value.id.toString());
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.deepPurpleAccent,
+                                            ),
+                                            child: const Text("UnFollow"),
+                                          ) : ElevatedButton(
+                                              onPressed: () async {
+                                                followController.insertFollow(
+                                                    searchUser["id"].toString(), userController.user.value.id.toString());
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.indigoAccent,
+                                              ),
+                                              child: const Text("Follow")
+                                          );
+                                        }),
+                                        const Padding(padding: EdgeInsets.only(right: 10)),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            
+                                          },
+                                          child: const Text("Message"),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ],
                             )
                           ],
