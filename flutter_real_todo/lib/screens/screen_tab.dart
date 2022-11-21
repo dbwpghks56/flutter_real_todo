@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/controller/controller_event.dart';
 import 'package:flutter_real_todo/screens/screen_main.dart';
 import 'package:flutter_real_todo/tab/tab_calender.dart';
+import 'package:flutter_real_todo/tab/tab_chat.dart';
 import 'package:flutter_real_todo/tab/tab_my_page.dart';
 import 'package:flutter_real_todo/tab/tab_search_user.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,7 @@ class _ScreenTabState extends State<ScreenTab> {
     ScreenMain(),
     TabCalender(),
     TabSearchUser(),
-    TabMyPage(searchUser: null),
+    TabChat()
   ];
 
   @override
