@@ -11,12 +11,15 @@ class TodoController extends GetxController {
   final userModel = Get.put(UserController());
   final defaultUrl = "http://localhost:8080";
   final mobileUrl = "http://10.0.2.2:8080";
+  final iosUrl = "http://127.0.0.1:8080";
 
   Future<void> getTodos() async {
     var url = Uri.parse("$defaultUrl/todo/getTodos/${userModel.user.value.id}");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/todo/getTodos/${userModel.user.value.id}");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/todo/getTodos/${userModel.user.value.id}");
       }
     } catch(e) {
       print(e);
@@ -29,8 +32,10 @@ class TodoController extends GetxController {
   Future<void> deleteTodo(Map<String, dynamic> todo) async {
     var url = Uri.parse("$defaultUrl/todo/delteTodo");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/todo/delteTodo");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/todo/delteTodo");
       }
     } catch(e) {
       print(e);
@@ -58,8 +63,10 @@ class TodoController extends GetxController {
   Future<void> updateTodo(int id) async {
     var url = Uri.parse("$defaultUrl/todo/updateTodo");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/todo/updateTodo");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/todo/updateTodo");
       }
     } catch(e) {
       print(e);
@@ -97,8 +104,10 @@ class TodoController extends GetxController {
   Future<void> insertTodo() async {
     var url = Uri.parse("$defaultUrl/todo/insertTodos");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/todo/insertTodos");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/todo/insertTodos");
       }
     } catch(e) {
       print(e);

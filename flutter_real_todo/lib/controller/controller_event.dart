@@ -16,12 +16,15 @@ class MyController extends GetxController {
   final dateEvent = [].obs;
   final defaultUrl = "http://localhost:8080";
   final mobileUrl = "http://10.0.2.2:8080";
+  final iosUrl = "http://127.0.0.1:8080";
 
   Future<void> getEvents() async {
     var url = Uri.parse("$defaultUrl/event/getEvents/${userModel.user.value.id}");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/event/getEvents/${userModel.user.value.id}");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/event/getEvents/${userModel.user.value.id}");
       }
     } catch(e) {
       print(e);
@@ -51,8 +54,10 @@ class MyController extends GetxController {
   Future<void> updateComplete(int id, int complete) async {
     var url = Uri.parse("$defaultUrl/event/updateClear");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/event/updateClear");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/event/updateClear");
       }
     } catch(e) {
       print(e);
@@ -82,8 +87,10 @@ class MyController extends GetxController {
   Future<void> deleteEvent(int id) async {
     var url = Uri.parse("$defaultUrl/event/deleteEvent");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/event/deleteEvent");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/event/deleteEvent");
       }
     } catch(e) {
       print(e);
@@ -122,8 +129,10 @@ class MyController extends GetxController {
   Future<void> insertEvents() async {
     var url = Uri.parse("$defaultUrl/event/insertEvents");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/event/insertEvents");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/event/insertEvents");
       }
     } catch(e) {
       print(e);

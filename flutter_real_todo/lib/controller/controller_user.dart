@@ -18,6 +18,7 @@ class UserController extends GetxController {
   final usersModel = Get.put(RxUsersModel());
   final defaultUrl = "http://localhost:8080";
   final mobileUrl = "http://10.0.2.2:8080";
+  final iosUrl = "http://127.0.0.1:8080";
 
   void updateEmail(String text) {
     user.update((val) {
@@ -36,9 +37,20 @@ class UserController extends GetxController {
     print(email);
     print(password);
     var url = Uri.parse("$defaultUrl/user/login");
+    user.update((val) {
+      val?.defaultUrl = defaultUrl;
+    });
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/user/login");
+        user.update((val) {
+          val?.defaultUrl = mobileUrl;
+        });
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/user/login");
+        user.update((val) {
+          val?.defaultUrl = iosUrl;
+        });
       }
     } catch(e) {
       print(e);
@@ -60,6 +72,7 @@ class UserController extends GetxController {
           val?.cart = jsonDecode(value.body)["cart"];
         });
         print(user.value.cart);
+        print(user.value.defaultUrl);
         prefs.setString("id", email);
         prefs.setString("password", password);
         prefs.setBool("isLogin", true);
@@ -86,8 +99,16 @@ class UserController extends GetxController {
   Future<void> getUsers(String uuid) async {
     var url = Uri.parse("$defaultUrl/user/findUser/$uuid");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/user/findUser/$uuid");
+        user.update((val) {
+          val?.defaultUrl = mobileUrl;
+        });
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/user/findUser/$uuid");
+        user.update((val) {
+          val?.defaultUrl = iosUrl;
+        });
       }
     } catch(e) {
       print(e);
@@ -109,8 +130,16 @@ class UserController extends GetxController {
   Future<void> SignUp(String email, String password) async {
     var url = Uri.parse("$defaultUrl/user/signUp");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/user/signUp");
+        user.update((val) {
+          val?.defaultUrl = mobileUrl;
+        });
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/user/signUp");
+        user.update((val) {
+          val?.defaultUrl = iosUrl;
+        });
       }
     } catch(e) {
       print(e);

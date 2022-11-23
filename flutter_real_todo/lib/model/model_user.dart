@@ -5,5 +5,6 @@ class User{
   String password = "";
   String passwordConfirm = "";
   int id = 0;
+  String defaultUrl = "";
   dynamic cart;
 }

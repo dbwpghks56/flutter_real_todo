@@ -9,14 +9,17 @@ import 'package:http/http.dart' as http;
 class FollowController extends GetxController {
   final defaultUrl = "http://localhost:8080";
   final mobileUrl = "http://10.0.2.2:8080";
+  final iosUrl = "http://127.0.0.1:8080";
   final _follows = [].obs;
   final check = false.obs;
 
   Future<void> insertFollow(String target, String userid) async {
     var url = Uri.parse("$defaultUrl/follow/insertFollow");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/follow/insertFollow");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/follow/insertFollow");
       }
     } catch(e) {
       print(e);
@@ -51,8 +54,10 @@ class FollowController extends GetxController {
   Future<void> unFollow(String target, String userid) async {
     var url = Uri.parse("$defaultUrl/follow/unFollow");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/follow/unFollow");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/follow/unFollow");
       }
     } catch(e) {
       print(e);
@@ -87,8 +92,10 @@ class FollowController extends GetxController {
   Future<void> checkFollow(String target, String userId) async {
     var url = Uri.parse("$defaultUrl/follow/checkFollow/$target/$userId");
     try {
-      if(Platform.isAndroid || Platform.isIOS) {
+      if(Platform.isAndroid) {
         url = Uri.parse("$mobileUrl/follow/checkFollow/$target/$userId");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/follow/checkFollow/$target/$userId");
       }
     } catch(e) {
       print(e);
