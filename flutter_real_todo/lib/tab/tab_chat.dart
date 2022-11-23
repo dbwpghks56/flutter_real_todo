@@ -3,13 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/controller/controller_chat.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
-import 'package:flutter_real_todo/model/model_chat.dart';
 import 'package:get/get.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
-import 'package:stomp_dart_client/sock_js/sock_js_utils.dart';
-import 'package:stomp_dart_client/sock_js/sock_js_parser.dart';
 import 'package:stomp_dart_client/stomp_frame.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class TabChat extends StatefulWidget {
 
@@ -23,9 +21,55 @@ class _TabChatState extends State<TabChat> {
   TextEditingController message = TextEditingController();
   StompClient? client;
 
+  var _flutterLocalNotificationsPlugin;
+
+  void onSelectNotification(String? payload) async {
+    debugPrint("$payload");
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Notification Payload'),
+          content: Text('Payload: $payload'),
+        ));
+  }
+
+//await _flutterLocalNotificationPlugin.~ 에서 payload부분은 모두 설정하여 주지 않아도 됩니다.
+//버튼을 눌렀을때 한번 알림이 뜨게 해주는 방법입니다.
+  Future<void> _showNotification(String content) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails('your channel id', 'your channel name',
+        channelDescription: 'your channel description',
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: 'ticker');
+
+    const NotificationDetails platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await _flutterLocalNotificationsPlugin!.show(
+      0,
+      '메시지가 도착했습니다.',
+      content,
+      platformChannelSpecifics,
+      payload: content,
+    );
+  }
   @override
   void initState() {
     super.initState();
+    var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
+    //ios 알림 설정 : 소리, 뱃지 등을 설정하여 줄수가 있습니다.
+    var initializationSettingsIOS = const DarwinInitializationSettings();
+
+    var initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+
+    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+    //onSelectNotification의 경우 알림을 눌렀을때 어플에서 실행되는 행동을 설정하는 부분입니다.
+    //onSelectNotification는 없어도 되는 부분입니다. 어떤 행동을 취하게 하고 싶지 않다면 그냥 비워 두셔도 됩니다.
+    _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
     setState(() {
       if(client == null) {
         client = StompClient(
