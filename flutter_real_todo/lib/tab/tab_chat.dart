@@ -38,10 +38,11 @@ class _TabChatState extends State<TabChat> {
   Future<void> _showNotification(String content) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails('your channel id', 'your channel name',
-        channelDescription: 'your channel description',
-        importance: Importance.max,
-        priority: Priority.high,
-        ticker: 'ticker');
+      channelDescription: 'your channel description',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+    );
 
     const NotificationDetails platformChannelSpecifics =
     NotificationDetails(android: androidPlatformChannelSpecifics);
@@ -93,6 +94,7 @@ class _TabChatState extends State<TabChat> {
                       // print(obj);
                       chatService.getChats(obj);
                       print(chatService.chats);
+                      obj["id"] != userService.user.value.id ? _showNotification(obj["message"]) : null;
                     }
                   },
                   headers: {
