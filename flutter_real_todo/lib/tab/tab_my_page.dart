@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:boxy/boxy.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_real_todo/controller/controller_chat.dart';
 import 'package:flutter_real_todo/controller/controller_follow.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import '../controller/controller_event.dart';
 class TabMyPage extends StatelessWidget {
   final userController = Get.put(UserController());
   final followController = Get.put(FollowController());
+  final chatController = Get.put(ChatController());
   var eventService = Get.put(MyController());
   final searchUser;
 
@@ -169,8 +171,11 @@ class TabMyPage extends StatelessWidget {
                                         }),
                                         const Padding(padding: EdgeInsets.only(right: 10)),
                                         ElevatedButton(
-                                          onPressed: () {
-                                            
+                                          onPressed: () async {
+                                            chatController.getChats2(
+                                                userController.user.value.id,
+                                                searchUser["id"]
+                                            );
                                           },
                                           child: const Text("Message"),
                                         ),
