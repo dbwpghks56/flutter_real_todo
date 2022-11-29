@@ -21,8 +21,7 @@ class _TabCalenderState extends State<TabCalender> {
   final userController = Get.put(UserController());
   final rangeColor =  const Color(0xff8FBDD3);
   late final ValueNotifier<List<Event>> _selectedEvents;
-  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
-      .toggledOff; // Can be toggled on/off by longpressing a date
+  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff; // Can be toggled on/off by longpressing a date
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   DateTime? _rangeStart;

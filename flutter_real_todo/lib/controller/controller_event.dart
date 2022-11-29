@@ -14,6 +14,7 @@ class MyController extends GetxController {
   final kEventSource = {}.obs;
   final kEvents = {}.obs;
   final dateEvent = [].obs;
+  final eventcount = 0.obs;
   final defaultUrl = "http://localhost:8080";
   final mobileUrl = "http://10.0.2.2:8080";
   final iosUrl = "http://127.0.0.1:8080";
@@ -121,9 +122,24 @@ class MyController extends GetxController {
   }
 
   List<Event>? showEvent(day) {
-    kEvents.addAll(kEventSource);
+    return kEventSource[day];
+  }
 
-    return kEvents[day];
+  Future<void> countEvent(int id) async {
+    var url = Uri.parse("$defaultUrl/event/getCount/$id");
+    try {
+      if(Platform.isAndroid) {
+        url = Uri.parse("$mobileUrl/event/getCount/$id");
+      } else if(Platform.isIOS) {
+        url = Uri.parse("$iosUrl/event/getCount/$id");
+      }
+    } catch(e) {
+      print(e);
+    }
+
+    await http.get(url).then((value) {
+      print(value.body);
+    });
   }
 
   Future<void> insertEvents() async {

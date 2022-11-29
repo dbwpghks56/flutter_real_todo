@@ -20,6 +20,7 @@ class TabMyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    eventService.dateEvent.clear();
     return searchUser == null ? Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () async {

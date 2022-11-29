@@ -53,6 +53,7 @@ class TabSearchUser extends StatelessWidget {
               onTap: () async {
                 await followService.checkFollow(usersModel.users[index]["id"].toString(), userService.user.value.id.toString());
                 await eventService.getEvents(usersModel.users[index]["id"]);
+                await eventService.countEvent(usersModel.users[index]["id"]);
                 Get.to(() => TabMyPage(searchUser: usersModel.users[index]));
               },
             );
