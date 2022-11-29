@@ -41,7 +41,7 @@ class TabMyPage extends StatelessWidget {
                             height: 50,
                             padding: EdgeInsets.only(top: 10),
                             child: const Text(
-                              "채팅방 목록",
+                              "채팅방 목록입니다.",
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 25, color: Colors.white),),
                           ),
