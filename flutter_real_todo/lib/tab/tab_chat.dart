@@ -94,7 +94,7 @@ class _TabChatState extends State<TabChat> {
                       Map<String, dynamic> obj = json.decode(frame.body!);
                       // print(obj);
                       chatService.getChats(obj);
-                      print(chatService.chats);
+                      // print(chatService.chats);
                       obj["users"]["id"] != userService.user.value.id ? _showNotification(obj["message"]) : null;
                     }
                   },
