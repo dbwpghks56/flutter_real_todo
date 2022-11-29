@@ -18,13 +18,13 @@ class MyController extends GetxController {
   final mobileUrl = "http://10.0.2.2:8080";
   final iosUrl = "http://127.0.0.1:8080";
 
-  Future<void> getEvents() async {
-    var url = Uri.parse("$defaultUrl/event/getEvents/${userModel.user.value.id}");
+  Future<void> getEvents(int id) async {
+    var url = Uri.parse("$defaultUrl/event/getEvents/$id");
     try {
       if(Platform.isAndroid) {
-        url = Uri.parse("$mobileUrl/event/getEvents/${userModel.user.value.id}");
+        url = Uri.parse("$mobileUrl/event/getEvents/$id");
       } else if(Platform.isIOS) {
-        url = Uri.parse("$iosUrl/event/getEvents/${userModel.user.value.id}");
+        url = Uri.parse("$iosUrl/event/getEvents/$id");
       }
     } catch(e) {
       print(e);
@@ -79,7 +79,7 @@ class MyController extends GetxController {
             duration: Duration(seconds: 1),
           ),
         );
-        getEvents();
+        getEvents(userModel.user.value.id);
       }
     });
   }
@@ -111,7 +111,7 @@ class MyController extends GetxController {
             duration: Duration(seconds: 2),
           ),
         );
-        getEvents();
+        getEvents(userModel.user.value.id);
       }
     });
   }
@@ -163,7 +163,7 @@ class MyController extends GetxController {
               snackPosition: SnackPosition.BOTTOM,
             )
         );
-        getEvents();
+        getEvents(userModel.user.value.id);
       } else {
         Get.showSnackbar(
             const GetSnackBar(

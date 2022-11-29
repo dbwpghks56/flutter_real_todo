@@ -5,6 +5,7 @@ import 'package:flutter_real_todo/model/model_event.dart';
 import 'package:flutter_real_todo/model/model_todo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:get/get.dart';
+import '../controller/controller_user.dart';
 import '../utils.dart';
 
 class TabCalender extends StatefulWidget {
@@ -17,6 +18,7 @@ class _TabCalenderState extends State<TabCalender> {
   var eventName = TextEditingController();
   var eventService = Get.put(MyController());
   final eventModel = Get.put(RxEventModel());
+  final userController = Get.put(UserController());
   final rangeColor =  const Color(0xff8FBDD3);
   late final ValueNotifier<List<Event>> _selectedEvents;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
@@ -29,7 +31,6 @@ class _TabCalenderState extends State<TabCalender> {
   @override
   void initState() {
     super.initState();
-
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
   }

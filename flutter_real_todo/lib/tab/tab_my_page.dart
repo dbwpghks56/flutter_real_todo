@@ -253,7 +253,8 @@ class TabMyPage extends StatelessWidget {
           ],
         )) : Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
+          onPressed: () async {
+            await eventService.getEvents(userController.user.value.id);
             Get.back();
           },
           backgroundColor: const Color(0xff3B44F6),

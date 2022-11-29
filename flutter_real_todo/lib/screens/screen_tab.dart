@@ -50,6 +50,7 @@ class _ScreenTabState extends State<ScreenTab> {
         selectedLabelStyle: const TextStyle(fontSize: 12),
         currentIndex: _currentIndex,
         onTap: (index) async {
+          eventController.dateEvent.clear();
           setState(() {
             _currentIndex = index;
             if (_currentIndex == 0 ) {

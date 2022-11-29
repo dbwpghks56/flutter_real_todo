@@ -27,7 +27,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
     if(isLogin) {
       await userController.Login(prefs.getString("id")!, prefs.getString("password")!);
       await todoservice.getTodos();
-      await eventService.getEvents();
+      await eventService.getEvents(userController.user.value.id);
     }
 
     return isLogin;

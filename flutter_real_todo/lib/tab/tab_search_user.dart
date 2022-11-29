@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_real_todo/controller/controller_event.dart';
 import 'package:flutter_real_todo/controller/controller_follow.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
 import 'package:flutter_real_todo/model/model_users.dart';
@@ -10,6 +11,7 @@ class TabSearchUser extends StatelessWidget {
   final searchText = TextEditingController();
   final userService = Get.put(UserController());
   final usersModel = Get.put(RxUsersModel());
+  final eventService = Get.put(MyController());
   final followService = Get.put(FollowController());
 
   @override
@@ -50,6 +52,7 @@ class TabSearchUser extends StatelessWidget {
               title: Text(usersModel.users[index]["uuid"].toString()),
               onTap: () async {
                 await followService.checkFollow(usersModel.users[index]["id"].toString(), userService.user.value.id.toString());
+                await eventService.getEvents(usersModel.users[index]["id"]);
                 Get.to(() => TabMyPage(searchUser: usersModel.users[index]));
               },
             );

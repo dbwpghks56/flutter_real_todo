@@ -95,7 +95,7 @@ class ScreenLogin extends StatelessWidget {
                             onPressed: () async {
                               await userController.Login(emailController.text.trim(), passwordController.text.trim());
                               await todoservice.getTodos();
-                              await eventService.getEvents();
+                              await eventService.getEvents(userController.user.value.id);
                               Get.off(() => ScreenTab(), transition: Transition.cupertino);
                             },
                             child: const Text("LogIn"),
