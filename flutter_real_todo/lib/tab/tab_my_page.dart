@@ -163,15 +163,15 @@ class TabMyPage extends StatelessWidget {
                 id: #content,
                 child: Container(
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Obx(() {
-                        return SizedBox(
+                        return Container(
                             width: 365,
                             child: ListView.builder(
                               padding: const EdgeInsets.only(top: 120, left: 10, right: 10),
                               itemCount: eventService.kEventSource.length,
+                              scrollDirection: Axis.vertical,
                               itemBuilder: (context, index) {
                                 return Container(
                                     decoration: BoxDecoration(
@@ -216,10 +216,9 @@ class TabMyPage extends StatelessWidget {
                         ),
                       ),
                       Obx(() {
-                        return Container(
-                            width: 700,
+                        return Expanded(
                             child: ListView.builder(
-                              padding: const EdgeInsets.only(top: 20, left: 30),
+                              padding: const EdgeInsets.only(top: 20, left: 30, right: 30),
                               itemCount: eventService.dateEvent.length,
                               itemBuilder: (context, index) {
                                 return Container(

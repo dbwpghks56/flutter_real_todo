@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/controller/controller_chat.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
+import 'package:flutter_real_todo/util/date_pick.dart';
+import 'package:flutter_real_todo/util/promise_card.dart';
 import 'package:get/get.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
@@ -92,7 +94,7 @@ class _TabChatState extends State<TabChat> {
                   callback: (StompFrame frame) async {
                     if (frame.body != null) {
                       Map<String, dynamic> obj = json.decode(frame.body!);
-                      // print(obj);
+                      print(obj);
                       chatService.getChats(obj);
                       // print(chatService.chats);
                       obj["users"]["id"] != userService.user.value.id ? _showNotification(obj["message"]) : null;
@@ -128,7 +130,7 @@ class _TabChatState extends State<TabChat> {
                   child: ListView.builder(
                     itemCount: chatService.chatsLang,
                     itemBuilder: (context, index) {
-                      return Card(
+                      return chatService.chats[index]["message"] != null ? Card(
                         margin: chatService.chats[index]["users"]["id"] == userService.user.value.id ?
                         const EdgeInsets.only(left: 100,bottom: 10) : const EdgeInsets.only(right: 100,bottom: 10),
                         child:Text(
@@ -136,8 +138,7 @@ class _TabChatState extends State<TabChat> {
                           textAlign:chatService.chats[index]["users"]["id"]
                               == userService.user.value.id ? TextAlign.right : TextAlign.left,
                         ),
-
-                      );
+                      ) : PromiseCard(promise: chatService.chats[index]);
                     },
                     padding: const EdgeInsets.only(bottom: 10),
                   )
@@ -147,6 +148,24 @@ class _TabChatState extends State<TabChat> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 const Padding(padding: EdgeInsets.only(left: 10)),
+                Expanded(
+                  child: Container(
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          Get.dialog(
+                            DatePick(
+                              client: client,
+                              roomId: chatService.roomId.value
+                            ));
+                        });
+                      },
+                      child: const Icon(Icons.pending_actions_outlined),
+                    ),
+                  )
+                ),
+                const Padding(padding: EdgeInsets.only(right: 10)),
                 Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
@@ -155,7 +174,7 @@ class _TabChatState extends State<TabChat> {
                       ),
                     ),
                     padding: const EdgeInsets.only(left: 10),
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.6,
                     child: TextField(
                       controller: message,
                       autofocus: true,
@@ -195,7 +214,6 @@ class _TabChatState extends State<TabChat> {
                 const Padding(padding: EdgeInsets.only(right: 10)),
               ],
             ),
-
           ],
         ),
       ),
