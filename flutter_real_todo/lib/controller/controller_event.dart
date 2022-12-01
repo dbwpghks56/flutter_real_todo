@@ -41,13 +41,21 @@ class MyController extends GetxController {
 
         if(kEventSource.containsKey(dateFormat)) {
           kEventSource.update(dateFormat, (value)  {
-            value.add(Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"], convertDate(item["eventStart"]), convertDate(item["eventEnd"])));
+            value.add(Event(item["eventName"],
+              item["eventClear"] == 0 ? false : true,
+              item["eid"], convertDate(item["eventStart"]),
+              convertDate(item["eventEnd"]),
+              item["eventConfirm"] == 0 ? false : true, item["tag"]));
             return value;
           });
         }
         else {
           kEventSource[dateFormat]
-          =[Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"], convertDate(item["eventStart"]), convertDate(item["eventEnd"]))];
+          =[Event(item["eventName"],
+              item["eventClear"] == 0 ? false : true,
+              item["eid"], convertDate(item["eventStart"]),
+              convertDate(item["eventEnd"]),
+              item["eventConfirm"] == 0 ? false : true, item["tag"])];
         }
       }
     });

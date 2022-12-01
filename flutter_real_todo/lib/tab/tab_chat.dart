@@ -138,7 +138,7 @@ class _TabChatState extends State<TabChat> {
                           textAlign:chatService.chats[index]["users"]["id"]
                               == userService.user.value.id ? TextAlign.right : TextAlign.left,
                         ),
-                      ) : PromiseCard(promise: chatService.chats[index]);
+                      ) : PromiseCard(promise: chatService.chats[index], client: client, roomId: chatService.roomId.value,);
                     },
                     padding: const EdgeInsets.only(bottom: 10),
                   )

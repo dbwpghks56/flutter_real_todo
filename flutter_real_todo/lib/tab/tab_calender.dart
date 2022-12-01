@@ -92,8 +92,7 @@ class _TabCalenderState extends State<TabCalender> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.dialog(
-              Dialog(
+          Get.dialog(Dialog(
             child:
             SizedBox(
               height: 500,

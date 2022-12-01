@@ -14,12 +14,22 @@ class Event {
   final String title;
   final bool complete;
   final int eid;
+  final bool confirm;
   final DateTime start;
   final DateTime end;
-  const Event(this.title, this.complete, this.eid, this.start, this.end);
+  final List tag;
+  const Event(this.title, this.complete, this.eid, this.start, this.end, this.confirm, this.tag);
 
   @override
-  String toString() => "$title : $complete";
+  String toString() {
+    String tags = "";
+
+    for(int i = 0; i < tag.length; i++) {
+      tags += " #${tag[i]["users"]["uuid"]}";
+    }
+
+    return "$title : $tags";
+  }
 }
 
 const colorPickerColors = [
@@ -47,7 +57,7 @@ final kEvents = LinkedHashMap<DateTime, List<Event>>(
 final _kEventSource = {
   for (var item in eventModel.events)
     DateTime.parse(item["eventEnd"]) : [Event(item["eventName"], item["eventClear"] == 0 ? false : true, item["eid"],
-        item["eventStart"], item["eventEnd"])]
+        item["eventStart"], item["eventEnd"], item["eventConfirm"] == 0 ? false : true, item["tag"])]
 };
 
 int getHashCode(DateTime key) {

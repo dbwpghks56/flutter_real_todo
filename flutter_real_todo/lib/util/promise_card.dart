@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
 import 'package:get/get.dart';
 
 class PromiseCard extends StatelessWidget {
   final dynamic promise;
+  final dynamic client;
+  final int roomId;
   final userService = Get.put(UserController());
-  PromiseCard({required this.promise});
+  PromiseCard({required this.promise, required this.client, required this.roomId});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +56,13 @@ class PromiseCard extends StatelessWidget {
                   height: 30,
                   child: ElevatedButton(
                     onPressed: () {
-
+                      client!.send(
+                        destination: "/pub/chat.allow.$roomId",
+                        body: json.encode({
+                          "eid" : promise["eid"].toString(),
+                          "allow" : true,
+                        }),
+                      );
                     },
                     child: const Text("수락"),
                   ),
