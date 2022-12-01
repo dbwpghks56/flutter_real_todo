@@ -12,7 +12,7 @@ class DatePick extends StatelessWidget {
   final eventModel = Get.put(RxEventModel());
   final userService = Get.put(UserController());
   final dynamic client;
-  final int roomId; // id
+  final int roomId; // id test
 
   DatePick({required this.client, required this.roomId});
 
