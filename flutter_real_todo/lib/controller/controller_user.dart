@@ -4,6 +4,7 @@ import 'package:flutter_real_todo/controller/controller_event.dart';
 import 'package:flutter_real_todo/model/model_user.dart';
 import 'package:flutter_real_todo/model/model_users.dart';
 import 'package:flutter_real_todo/screens/screen_login.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:flutter_real_todo/screens/screen_main.dart';
 import 'package:flutter_real_todo/screens/screen_tab.dart';
 import 'package:get/get.dart';
@@ -127,7 +128,7 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> SignUp(String email, String password) async {
+  Future<void> SignUp(String email, String password, String imagePath) async {
     var url = Uri.parse("$defaultUrl/user/signUp");
     try {
       if(Platform.isAndroid) {
@@ -144,20 +145,48 @@ class UserController extends GetxController {
     } catch(e) {
       print(e);
     }
-    await http.post(
-      url,
-      headers: {"Content-Type" : "application/json"},
-      body: json.encode({
-        "uuid" : email,
-        "upassword" : password
-      })
-    ).then((value) {
-      Get.showSnackbar(const GetSnackBar(
-        title: "Sign Up",
-        message: "회원가입에 성공하셨습니다.",
-        duration: Duration(seconds: 2),
-      ));
-      Get.off(() => ScreenLogin());
+
+    http.MultipartRequest request = http.MultipartRequest("POST", url);
+
+    request.fields['uuid'] = user.value.email.toString();
+    request.fields['upassword'] = user.value.password.toString();
+
+    request.files.add(http.MultipartFile.fromString("images", imagePath));
+
+
+
+    await request.send().then((value) {
+      if(value.statusCode == 200) {
+        Get.showSnackbar(const GetSnackBar(
+          title: "Sign Up",
+          message: "회원가입에 성공하셨습니다.",
+          duration: Duration(seconds: 2),
+        ));
+        Get.off(() => ScreenLogin());
+      }
     });
+
+    // await http.post(
+    //   url,
+    //   headers: {"Content-Type" : "application/json"},
+    //   body: json.encode({
+    //     "uuid" : email,
+    //     "upassword" : password
+    //   })
+    // ).then((value) {
+    //   Get.showSnackbar(const GetSnackBar(
+    //     title: "Sign Up",
+    //     message: "회원가입에 성공하셨습니다.",
+    //     duration: Duration(seconds: 2),
+    //   ));
+    //   Get.off(() => ScreenLogin());
+    // });
   }
+}
+
+jsonToFormData(http.MultipartRequest request, Map<String, dynamic> data) {
+  for (var key in data.keys) {
+    request.fields[key] = data[key].toString();
+  }
+  return request;
 }

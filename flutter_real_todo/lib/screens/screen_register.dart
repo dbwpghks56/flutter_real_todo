@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
+import 'package:flutter_real_todo/controller/image_controller.dart';
+import 'package:flutter_real_todo/util/image_pick.dart';
 import 'package:get/get.dart';
 
 class ScreenRegister extends StatelessWidget {
   var emailText = TextEditingController();
   var passwordText = TextEditingController();
   var passwordConfirmText = TextEditingController();
+  final imageController = Get.put(ImageController());
   final userController = Get.put(UserController());
 
   @override
@@ -18,6 +21,8 @@ class ScreenRegister extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            ImagePick(),
+            const Padding(padding: EdgeInsets.only(bottom: 10)),
             Container(
                 width: 500,
                 decoration: BoxDecoration(
@@ -76,7 +81,7 @@ class ScreenRegister extends StatelessWidget {
                     if (passwordText.text.trim() ==
                         passwordConfirmText.text.trim()) {
                       userController.SignUp(
-                          emailText.text.trim(), passwordText.text.trim());
+                          emailText.text.trim(), passwordText.text.trim(), imageController.pickImage.value.path);
                     } else {
                       Get.showSnackbar(const GetSnackBar(
                         message: "비밀번호가 일치하지 않습니다.",
