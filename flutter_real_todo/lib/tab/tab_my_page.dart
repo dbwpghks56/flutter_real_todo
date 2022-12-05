@@ -257,8 +257,8 @@ class TabMyPage extends StatelessWidget {
                 ),
                 width: MediaQuery.of(context).size.width * 0.3,
                 height: MediaQuery.of(context).size.height * 0.3,
-                child: const CircleAvatar(
-                  backgroundImage: NetworkImage("https://thumb.mt.co.kr/06/2022/08/2022081109301286132_1.jpg/dims/optimize/"),
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(userController.user.value.imageUrl),
                 ),
               ),
             ),
@@ -479,8 +479,8 @@ class TabMyPage extends StatelessWidget {
                 ),
                 width: MediaQuery.of(context).size.width * 0.3,
                 height: MediaQuery.of(context).size.height * 0.3,
-                child: const CircleAvatar(
-                  backgroundImage: NetworkImage("https://thumb.mt.co.kr/06/2022/08/2022081109301286132_1.jpg/dims/optimize/"),
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(userController.user.value.imageUrl),
                 ),
               ),
             ),

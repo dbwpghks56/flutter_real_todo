@@ -13,10 +13,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'controller_todo.dart';
+import 'image_controller.dart';
 
 class UserController extends GetxController {
   final user = User().obs;
   final usersModel = Get.put(RxUsersModel());
+  final imageController = Get.put(ImageController());
   final defaultUrl = "http://localhost:8080";
   final mobileUrl = "http://10.0.2.2:8080";
   final iosUrl = "http://127.0.0.1:8080";
@@ -71,6 +73,7 @@ class UserController extends GetxController {
           val?.password = jsonDecode(value.body)["password"];
           val?.id = jsonDecode(value.body)["pid"];
           val?.cart = jsonDecode(value.body)["cart"];
+          val?.imageUrl = jsonDecode(value.body)["imageUrl"];
         });
         print(user.value.cart);
         print(user.value.defaultUrl);
@@ -148,12 +151,14 @@ class UserController extends GetxController {
 
     http.MultipartRequest request = http.MultipartRequest("POST", url);
 
-    request.fields['uuid'] = user.value.email.toString();
-    request.fields['upassword'] = user.value.password.toString();
 
-    request.files.add(http.MultipartFile.fromString("images", imagePath));
+    request.fields['uuid'] = email;
+    request.fields['upassword'] = password;
 
-
+    request.headers["Content-Type"] = "application/json";
+    request.files.add(await http.MultipartFile.fromBytes("images", await imageController.pickImage.value.readAsBytes().then((value) {
+      return value.cast();
+    }), contentType: MediaType("image", "*")));
 
     await request.send().then((value) {
       if(value.statusCode == 200) {
@@ -165,22 +170,6 @@ class UserController extends GetxController {
         Get.off(() => ScreenLogin());
       }
     });
-
-    // await http.post(
-    //   url,
-    //   headers: {"Content-Type" : "application/json"},
-    //   body: json.encode({
-    //     "uuid" : email,
-    //     "upassword" : password
-    //   })
-    // ).then((value) {
-    //   Get.showSnackbar(const GetSnackBar(
-    //     title: "Sign Up",
-    //     message: "회원가입에 성공하셨습니다.",
-    //     duration: Duration(seconds: 2),
-    //   ));
-    //   Get.off(() => ScreenLogin());
-    // });
   }
 }
 

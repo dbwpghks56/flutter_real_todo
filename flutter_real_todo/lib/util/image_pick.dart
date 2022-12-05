@@ -33,6 +33,7 @@ class ImagePickState extends State<ImagePick> {
           height: 250,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(110),
+            color: Color(0xffD8D9CF),
             border: Border.all(
                 style: BorderStyle.solid,
                 color: Colors.indigoAccent

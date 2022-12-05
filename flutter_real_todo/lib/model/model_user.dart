@@ -7,4 +7,5 @@ class User{
   int id = 0;
   String defaultUrl = "";
   dynamic cart;
+  String imageUrl = "";
 }
