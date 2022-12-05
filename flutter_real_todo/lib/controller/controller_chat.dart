@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_real_todo/controller/controller_user.dart';
 import 'package:flutter_real_todo/tab/tab_chat.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_real_todo/model/model_chat.dart';
@@ -8,8 +9,9 @@ import 'package:meta/meta.dart';
 
 class ChatController extends GetxController {
   final chatModel = Get.put(RxChatModel());
+  final userService = Get.put(UserController());
   final _chats = [].obs;
-  final roomId = 0.obs;
+  final roomId = {}.obs;
   final _rooms = [].obs;
   final defaultUrl = "http://localhost:8080";
   final mobileUrl = "http://10.0.2.2:8080";
@@ -41,8 +43,13 @@ class ChatController extends GetxController {
     await http.get(url).then((value) async {
       _chats.clear();
       roomId.value = json.decode(value.body);
-      await getChats3(roomId.value);
-      Get.to(() => TabChat());
+      await getChats3(roomId["roomId"]);
+      if(roomId["users"]["uuid"] == userService.user.value.email) {
+        Get.to(() => TabChat(chatTarget: roomId["targets"]["uuid"].toString()));
+      } else {
+        Get.to(() => TabChat(chatTarget: roomId["users"]["uuid"].toString()));
+      }
+
     });
   }
 
@@ -60,7 +67,6 @@ class ChatController extends GetxController {
 
     await http.get(url).then((value) {
       _chats(json.decode(value.body));
-      Get.to(() => TabChat());
     });
   }
 

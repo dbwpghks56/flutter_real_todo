@@ -125,7 +125,6 @@ class UserController extends GetxController {
         if (value.statusCode == 200) {
           // print(value.body);
           usersModel.users(json.decode(value.body));
-          print(usersModel.users[0]["uuid"]);
         }
       });
     }

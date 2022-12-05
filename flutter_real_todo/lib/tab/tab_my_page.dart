@@ -480,7 +480,7 @@ class TabMyPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.3,
                 height: MediaQuery.of(context).size.height * 0.3,
                 child: CircleAvatar(
-                  backgroundImage: NetworkImage(userController.user.value.imageUrl),
+                  backgroundImage: NetworkImage(searchUser["imageUrl"]),
                 ),
               ),
             ),

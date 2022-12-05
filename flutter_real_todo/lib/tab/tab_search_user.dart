@@ -47,15 +47,64 @@ class TabSearchUser extends StatelessWidget {
       body: Obx(() {
         return usersModel.users.isNotEmpty ? ListView.builder(
           itemCount: usersModel.users.length,
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(usersModel.users[index]["uuid"].toString()),
+            return usersModel.users[index]["uuid"] != userService.user.value.email ? InkWell(
               onTap: () async {
                 await followService.checkFollow(usersModel.users[index]["id"].toString(), userService.user.value.id.toString());
                 await eventService.getEvents(usersModel.users[index]["id"]);
                 await eventService.countEvent(usersModel.users[index]["id"]);
                 Get.to(() => TabMyPage(searchUser: usersModel.users[index]));
               },
+              child: Card(
+                margin: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 6),
+                    ),
+                      width: MediaQuery.of(context).size.width * 0.1,
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(usersModel.users[index]["imageUrl"]),
+                      ),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(usersModel.users[index]["uuid"].split("@")[0], style: const TextStyle(fontSize: 20),),
+                        Text(usersModel.users[index]["uuid"], style: const TextStyle(fontSize: 10, color: Colors.grey),)
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ) : Card(
+              margin: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 6),
+                  ),
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(usersModel.users[index]["imageUrl"]),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text("나(${usersModel.users[index]["uuid"].split("@")[0]})", style: const TextStyle(fontSize: 20),),
+                      Text(usersModel.users[index]["uuid"], style: const TextStyle(fontSize: 10, color: Colors.grey),)
+                    ],
+                  )
+                ],
+              ),
             );
           },
         ) : Center(

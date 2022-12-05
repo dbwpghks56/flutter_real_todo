@@ -12,19 +12,23 @@ import 'package:stomp_dart_client/stomp_frame.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class TabChat extends StatefulWidget {
-
+  String chatTarget = "";
+  TabChat({required this.chatTarget});
   @override
-  _TabChatState createState() => _TabChatState();
+  _TabChatState createState() => _TabChatState(target: chatTarget);
 }
 
 class _TabChatState extends State<TabChat> {
 
   final userService = Get.put(UserController());
   final chatService = Get.put(ChatController());
+  String target = "";
   TextEditingController message = TextEditingController();
   StompClient? client;
 
   var _flutterLocalNotificationsPlugin;
+
+  _TabChatState({required this.target});
 
   void onSelectNotification(String? payload) async {
     debugPrint("$payload");
@@ -121,6 +125,9 @@ class _TabChatState extends State<TabChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("${target.split("@")[0]}님과 채팅방"),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,15 +139,15 @@ class _TabChatState extends State<TabChat> {
                     itemBuilder: (context, index) {
                       return chatService.chats[index]["message"] != null ? Card(
                         margin: chatService.chats[index]["users"]["id"] == userService.user.value.id ?
-                        const EdgeInsets.only(left: 100,bottom: 10) : const EdgeInsets.only(right: 100,bottom: 10),
+                        const EdgeInsets.only(left: 100,bottom: 10,right: 10) : const EdgeInsets.only(left: 10, right: 100,bottom: 10),
                         child:Text(
                           chatService.chats[index]["message"],
                           textAlign:chatService.chats[index]["users"]["id"]
                               == userService.user.value.id ? TextAlign.right : TextAlign.left,
                         ),
-                      ) : PromiseCard(promise: chatService.chats[index], client: client, roomId: chatService.roomId.value,);
+                      ) : PromiseCard(promise: chatService.chats[index], client: client, roomId: chatService.roomId["roomId"],);
                     },
-                    padding: const EdgeInsets.only(bottom: 10),
+                    padding: const EdgeInsets.only(bottom: 10, top: 10),
                   )
               );
             }),
@@ -157,7 +164,7 @@ class _TabChatState extends State<TabChat> {
                           Get.dialog(
                             DatePick(
                               client: client,
-                              roomId: chatService.roomId.value
+                              roomId: chatService.roomId["roomId"]
                             ));
                         });
                       },
@@ -200,7 +207,8 @@ class _TabChatState extends State<TabChat> {
                               "memberId" : userService.user.value.email,
                               "message" : message.text.trim(),
                               "users" : {
-                                "id" : userService.user.value.id
+                                "id" : userService.user.value.id,
+                                "imageUrl" : userService.user.value.imageUrl
                               }
                             }),
                           );
