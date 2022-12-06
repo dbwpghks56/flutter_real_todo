@@ -61,16 +61,38 @@ class TabMyPage extends StatelessWidget {
                               itemCount: chatController.roomsLang,
                               itemBuilder: (context, index) {
                                 return Card(
-                                  child: ListTile(
-                                    title: Text(userController.user.value.id != chatController.rooms[index]["users"]["id"] ?
-                                    chatController.rooms[index]["users"]["uuid"].toString()
-                                        : chatController.rooms[index]["targets"]["uuid"].toString()),
+                                  child: InkWell(
                                     onTap: () async {
                                       chatController.getChats2(
                                           chatController.rooms[index]["users"]["id"],
                                           chatController.rooms[index]["targets"]["id"]
                                       );
                                     },
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Container(decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: Colors.white, width: 6),
+                                        ),
+                                          width: MediaQuery.of(context).size.width * 0.1,
+                                          height: MediaQuery.of(context).size.height * 0.1,
+                                          child: CircleAvatar(
+                                            backgroundImage: chatController.rooms[index]["users"]["id"] != userController.user.value.id ?
+                                            NetworkImage(chatController.rooms[index]["users"]["imageUrl"]) :
+                                            NetworkImage(chatController.rooms[index]["targets"]["imageUrl"])
+                                          ),
+                                        ),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            chatController.rooms[index]["users"]["id"] != userController.user.value.id ?
+                                            Text(chatController.rooms[index]["users"]["uuid"], style: const TextStyle(fontSize: 18,)):
+                                              Text(chatController.rooms[index]["targets"]["uuid"], style: const TextStyle(fontSize: 18,)),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 );
                               },
