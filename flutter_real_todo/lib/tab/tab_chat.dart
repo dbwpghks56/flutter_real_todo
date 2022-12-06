@@ -94,7 +94,7 @@ class _TabChatState extends State<TabChat> {
               },
               onConnect:(StompFrame frame) {
                 client!.subscribe(
-                  destination: '/exchange/chat.exchange/room.${chatService.roomId}',
+                  destination: '/exchange/chat.exchange/room.${chatService.roomId["roomId"]}',
                   callback: (StompFrame frame) async {
                     if (frame.body != null) {
                       Map<String, dynamic> obj = json.decode(frame.body!);
@@ -198,11 +198,12 @@ class _TabChatState extends State<TabChat> {
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
+                          print(chatService.roomId["roomId"]);
                           client!.send(
-                            destination: "/pub/chat.message.${chatService.roomId}",
+                            destination: "/pub/chat.message.${chatService.roomId["roomId"]}",
                             body: json.encode({
                               "chatRoom" : {
-                                "roomId" : chatService.roomId.value
+                                "roomId" : chatService.roomId["roomId"]
                               },
                               "memberId" : userService.user.value.email,
                               "message" : message.text.trim(),

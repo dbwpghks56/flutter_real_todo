@@ -16,6 +16,7 @@ class TabCalender extends StatefulWidget {
 class _TabCalenderState extends State<TabCalender> {
   final todoModel = Get.put(RxTodoModel());
   var eventName = TextEditingController();
+  var tagName = TextEditingController();
   var eventService = Get.put(MyController());
   final eventModel = Get.put(RxEventModel());
   final userController = Get.put(UserController());
@@ -107,9 +108,7 @@ class _TabCalenderState extends State<TabCalender> {
                       initialSelectedDate: _rangeStart ?? _selectedDay,
                       datePickerTitle: "약속 시작 일",
                       onDateChanged: (date) {
-                        print(date);
                         eventModel.eventStart(date);
-                        print(eventModel.eventStart);
                       },
                     ),
                   ),
@@ -120,7 +119,6 @@ class _TabCalenderState extends State<TabCalender> {
                       initialSelectedDate: _rangeEnd ?? _selectedDay,
                       datePickerTitle: "끝나는 일",
                       onDateChanged: (date) {
-                        print(date);
                         eventModel.eventEnd(date);
                       },
                     ),
@@ -139,6 +137,23 @@ class _TabCalenderState extends State<TabCalender> {
                       decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: "약속이름을 설정해주세요."
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 290,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.all(5),
+                    margin: const EdgeInsets.only(bottom: 5.0),
+                    child : TextField(
+                      controller: tagName,
+                      decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "태그할 사용자를 입력하세요."
                       ),
                     ),
                   ),

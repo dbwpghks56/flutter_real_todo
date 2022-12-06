@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/controller/controller_event.dart';
-import 'package:flutter_real_todo/model/model_user.dart';
 import 'package:flutter_real_todo/screens/screen_main.dart';
 import 'package:flutter_real_todo/tab/tab_calender.dart';
-import 'package:flutter_real_todo/tab/tab_chat.dart';
 import 'package:flutter_real_todo/tab/tab_my_page.dart';
 import 'package:flutter_real_todo/tab/tab_search_user.dart';
 import 'package:get/get.dart';
@@ -52,11 +50,11 @@ class _ScreenTabState extends State<ScreenTab> {
         selectedLabelStyle: const TextStyle(fontSize: 12),
         currentIndex: _currentIndex,
         onTap: (index) async {
-          _flagEventDate ? await eventController.getEvents(userController.user.value.id) : null;
           setState(() {
             _currentIndex = index;
             if (_currentIndex == 0 ) {
               _flagAppbar = true;
+              _flagEventDate = false;
             }
             else if(_currentIndex == 3) {
               _flagAppbar = false;
@@ -64,8 +62,10 @@ class _ScreenTabState extends State<ScreenTab> {
             }
             else {
               _flagAppbar = false;
+              _flagEventDate = false;
             }
           });
+          _flagEventDate ? await eventController.getEvents(userController.user.value.id) : null;
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.pending_actions_outlined), label: "Todo"),

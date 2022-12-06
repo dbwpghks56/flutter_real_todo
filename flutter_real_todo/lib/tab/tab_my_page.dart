@@ -71,12 +71,12 @@ class TabMyPage extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Container(decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(color: Colors.white, width: 6),
-                                        ),
-                                          width: MediaQuery.of(context).size.width * 0.1,
-                                          height: MediaQuery.of(context).size.height * 0.1,
+                                        Container(decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          ),
+                                          padding: const EdgeInsets.all(2),
+                                          width: MediaQuery.of(context).size.width * 0.08,
+                                          height: MediaQuery.of(context).size.height * 0.08,
                                           child: CircleAvatar(
                                             backgroundImage: chatController.rooms[index]["users"]["id"] != userController.user.value.id ?
                                             NetworkImage(chatController.rooms[index]["users"]["imageUrl"]) :

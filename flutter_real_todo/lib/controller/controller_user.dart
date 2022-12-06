@@ -86,6 +86,7 @@ class UserController extends GetxController {
           const GetSnackBar(
             title: "Login",
             message: "Login Fail",
+            duration: Duration(seconds: 2),
           )
         );
       }
