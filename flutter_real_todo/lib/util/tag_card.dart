@@ -6,9 +6,10 @@ import 'package:flutter_real_todo/controller/controller_user.dart';
 
 class TagCard extends StatelessWidget {
   final userService = Get.put(UserController());
-  List tagName = [];
+  List tagName;
+  Color? textColor = Colors.black;
 
-  TagCard({required this.tagName});
+  TagCard({required this.tagName, this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,10 @@ class TagCard extends StatelessWidget {
                 Get.to(() => TabMyPage(searchUser: tagName[index]["users"]));
               }
             },
-            child: Tag(tag: tagName[index]["users"]["uuid"],)
+            child: Tag(
+              tag: tagName[index]["users"]["uuid"],
+              textColor: textColor,
+            )
           );
         },
       ),

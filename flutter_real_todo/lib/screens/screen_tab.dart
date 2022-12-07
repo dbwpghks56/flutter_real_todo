@@ -56,7 +56,7 @@ class _ScreenTabState extends State<ScreenTab> {
               _flagAppbar = true;
               _flagEventDate = false;
             }
-            else if(_currentIndex == 3) {
+            else if(_currentIndex == 3 || _currentIndex == 1) {
               _flagAppbar = false;
               _flagEventDate = true;
             }

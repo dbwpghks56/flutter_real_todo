@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/controller/controller_event.dart';
 import 'package:flutter_real_todo/model/model_event.dart';
 import 'package:flutter_real_todo/model/model_todo.dart';
+import 'package:flutter_real_todo/util/tag_card.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:get/get.dart';
 import '../controller/controller_user.dart';
@@ -278,8 +279,18 @@ class _TabCalenderState extends State<TabCalender> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: ListTile(
-                        onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}',style: const TextStyle(color: Colors.white),),
+                        onTap: () {},
+                        title: Container(
+                          margin: const EdgeInsets.only(bottom: 7),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(value[index].toString(), style: const TextStyle(color: Colors.white),),
+                              TagCard(tagName: value[index].tag, textColor: Colors.white,),
+                            ],
+                          ),
+                        ),
                         subtitle: Text(value[index].start == value[index].end ? convertFormat(value[index].end) :
                         "${convertFormat(value[index].start)} ~ ${convertFormat(value[index].end)}",
                           style: const TextStyle(color: Colors.white),),
