@@ -37,8 +37,6 @@ class UserController extends GetxController {
 
   Future<void> Login(String email, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(email);
-    print(password);
     var url = Uri.parse("$defaultUrl/user/login");
     user.update((val) {
       val?.defaultUrl = defaultUrl;

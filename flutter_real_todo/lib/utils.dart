@@ -22,13 +22,7 @@ class Event {
 
   @override
   String toString() {
-    String tags = "";
-
-    for(int i = 0; i < tag.length; i++) {
-      tags += " #${tag[i]["users"]["uuid"]}";
-    }
-
-    return "$title : $tags";
+    return "$title : ";
   }
 }
 

@@ -37,25 +37,34 @@ class MyController extends GetxController {
       eventModel.events(json.decode(value.body));
       print(userModel.user.value.id);
       for(var item in eventModel.events) {
-        DateTime dateFormat = DateTime.utc(convertDate(item["eventEnd"]).year, convertDate(item["eventEnd"]).month, convertDate(item["eventEnd"]).day);
+        DateTime dateFormat = DateTime.utc(convertDate(item["eventEnd"]).year,
+            convertDate(item["eventEnd"]).month,
+            convertDate(item["eventEnd"]).day);
 
-        if(kEventSource.containsKey(dateFormat)) {
-          kEventSource.update(dateFormat, (value)  {
-            value.add(Event(item["eventName"],
-              item["eventClear"] == 0 ? false : true,
-              item["eid"], convertDate(item["eventStart"]),
-              convertDate(item["eventEnd"]),
-              item["eventConfirm"] == 0 ? false : true, item["tag"]));
+        if (kEventSource.containsKey(dateFormat)) {
+          kEventSource.update(dateFormat, (value) {
+            value.add(Event(
+                item["eventName"],
+                item["eventClear"] == 0 ? false : true,
+                item["eid"],
+                convertDate(item["eventStart"]),
+                convertDate(item["eventEnd"]),
+                item["eventConfirm"] == 0 ? false : true,
+                item["tags"]));
             return value;
           });
         }
         else {
-          kEventSource[dateFormat]
-          =[Event(item["eventName"],
-              item["eventClear"] == 0 ? false : true,
-              item["eid"], convertDate(item["eventStart"]),
-              convertDate(item["eventEnd"]),
-              item["eventConfirm"] == 0 ? false : true, item["tag"])];
+          kEventSource[dateFormat] = [
+            Event(
+                item["eventName"],
+                item["eventClear"] == 0 ? false : true,
+                item["eid"],
+                convertDate(item["eventStart"]),
+                convertDate(item["eventEnd"]),
+                item["eventConfirm"] == 0 ? false : true,
+                item["tags"])
+          ];
         }
       }
     });
@@ -170,6 +179,7 @@ class MyController extends GetxController {
         "eventClear" : eventModel.eventClear.value,
         "eventStart" : eventModel.eventStart.value.toIso8601String(),
         "eventEnd" : eventModel.eventEnd.value.toIso8601String(),
+        "eventConfirm" : 1,
         "users" : {
           "id" : userModel.user.value.id,
           "uuid" : userModel.user.value.email,

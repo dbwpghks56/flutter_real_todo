@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/controller/controller_chat.dart';
 import 'package:flutter_real_todo/controller/controller_follow.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
+import 'package:flutter_real_todo/util/tag_card.dart';
 import 'package:get/get.dart';
 
 import '../controller/controller_event.dart';
@@ -244,23 +245,29 @@ class TabMyPage extends StatelessWidget {
                               itemCount: eventService.dateEvent.length,
                               itemBuilder: (context, index) {
                                 return Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: Colors.white,
-                                      boxShadow: [BoxShadow(
-                                        color: Colors.grey.withOpacity(0.8),
-                                        spreadRadius: 0.5,
-                                        blurRadius: 0.5,
-                                        offset: const Offset(0, 1),
-                                      )],
-                                    ),
-                                    margin: const EdgeInsets.only(bottom: 13),
-                                    child: ListTile(
-                                      title: Text("${eventService.dateEvent[index]}"),
-                                      onTap: () {
-
-                                      },
-                                    )
+                                  padding: const EdgeInsets.only(left: 10),
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.white,
+                                    boxShadow: [BoxShadow(
+                                      color: Colors.grey.withOpacity(0.8),
+                                      spreadRadius: 0.5,
+                                      blurRadius: 0.5,
+                                      offset: const Offset(0, 1),
+                                    )],
+                                  ),
+                                  margin: const EdgeInsets.only(bottom: 13),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text("${eventService.dateEvent[index]}", style: const TextStyle(fontSize: 20),),
+                                      Expanded(
+                                          child: TagCard(tagName: eventService.dateEvent[index].tag)
+                                      ),
+                                    ],
+                                  ),
                                 );
                               },
                             )
@@ -466,6 +473,8 @@ class TabMyPage extends StatelessWidget {
                             itemCount: eventService.dateEvent.length,
                             itemBuilder: (context, index) {
                               return Container(
+                                height: 50,
+                                padding: EdgeInsets.only(left: 10),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   color: Colors.white,
@@ -477,12 +486,16 @@ class TabMyPage extends StatelessWidget {
                                   )],
                                 ),
                                 margin: const EdgeInsets.only(bottom: 13),
-                                child: ListTile(
-                                  title: Text("${eventService.dateEvent[index]}"),
-                                  onTap: () {
-
-                                  },
-                                )
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text("${eventService.dateEvent[index]}", style: const TextStyle(fontSize: 20),),
+                                    Expanded(
+                                      child: TagCard(tagName: eventService.dateEvent[index].tag)
+                                    ),
+                                  ],
+                                ),
                               );
                             },
                           )
