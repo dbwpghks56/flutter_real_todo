@@ -1,0 +1,1 @@
+enum ExerciseType {back, chest, shoulder, arm, abs, leg}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/controller/controller_event.dart';
 import 'package:flutter_real_todo/screens/screen_main.dart';
 import 'package:flutter_real_todo/tab/tab_calender.dart';
+import 'package:flutter_real_todo/tab/tab_exercise.dart';
 import 'package:flutter_real_todo/tab/tab_my_page.dart';
 import 'package:flutter_real_todo/tab/tab_search_user.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,7 @@ class _ScreenTabState extends State<ScreenTab> {
   final List<Widget> _tabs = [
     ScreenMain(),
     TabCalender(),
+    TabExercise(),
     TabSearchUser(),
     TabMyPage(searchUser: null)
   ];
@@ -70,6 +72,7 @@ class _ScreenTabState extends State<ScreenTab> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.pending_actions_outlined), label: "Todo"),
           BottomNavigationBarItem(icon: Icon(Icons.calendar_month_outlined), label: "calendar"),
+          BottomNavigationBarItem(icon: Icon(Icons.fitness_center_sharp), label: "Exercise"),
           BottomNavigationBarItem(icon: Icon(Icons.search_rounded), label: "search"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "myPage"),
         ],
