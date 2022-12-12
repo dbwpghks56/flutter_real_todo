@@ -53,7 +53,7 @@ class ExercisePick extends StatelessWidget {
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: "Set.No",
-
+                        label: Text("Set 수 기록"),
                       ),
                       keyboardType: const TextInputType.numberWithOptions(),
                     ),
