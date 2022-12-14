@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 class ExercisePick extends StatelessWidget {
   final _type = ExerciseType.back.obs;
+  final _accoflag = [false].obs;
   final setNo = TextEditingController();
   final exerName = TextEditingController();
   final setPerNo = TextEditingController();
@@ -23,6 +24,23 @@ class ExercisePick extends StatelessWidget {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Obx(() {
+                return ExpansionPanelList(
+                  expansionCallback: (panelIndex, isExpanded) {
+                    _accoflag[panelIndex] = !_accoflag[panelIndex];
+                    print(_accoflag[panelIndex]);
+                  },
+                  children: [
+                    ExpansionPanel(
+                        isExpanded: _accoflag[0],
+                        headerBuilder: (context, isExpanded) {
+                          return Text("test");
+                        },
+                        body: Text("test")
+                    ),
+                  ],
+                );
+              }),
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: ExerciseType.values.length,
@@ -123,7 +141,7 @@ class ExercisePick extends StatelessWidget {
               ),
               SubmitRow(
                 submitFunc: () {
-
+                  print("test submit");
                 }
               ),
             ],
