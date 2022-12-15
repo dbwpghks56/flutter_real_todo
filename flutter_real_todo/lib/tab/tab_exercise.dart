@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_real_todo/model/model_exercise.dart';
 import 'package:flutter_real_todo/util/exercise_pick.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ class TabExercise extends StatelessWidget {
         child: const Text("+", style: TextStyle(fontSize: 25),),
       ),
       body: Container(
-        child: TableCalendar<Event>(
+        child: TableCalendar<RxExerciseModel>(
           firstDay: kFirstDay,
           lastDay: kLastDay,
           focusedDay: DateTime.now(),

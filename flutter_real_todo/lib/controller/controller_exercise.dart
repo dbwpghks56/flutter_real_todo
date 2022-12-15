@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter_real_todo/model/model_exercise.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -25,13 +26,28 @@ class ExerciseController extends GetxController {
       print(e);
     }
 
+    Map<String, dynamic> maps = exerciseService.toJson();
+    maps["users"] = {
+      "id" : userModel.user.value.id,
+      "uuid" : userModel.user.value.email,
+      "upassword" : userModel.user.value.password
+    };
+
     await http.post(
       url,
       headers: {"Content-Type" : "application/json"},
-      body: json.encode({
-        exerciseService.toJson()
-      }),
-    );
+      body: json.encode(maps),
+    ).then((value) {
+      if(value.statusCode == 201) {
+        Get.showSnackbar(
+          const GetSnackBar(
+            title: "Exercise",
+            message: "운동 등록이 완료되었습니다.",
+            duration: Duration(seconds: 2),
+          )
+        );
+      }
+    });
   }
 
   Future<void> getExercises() async {

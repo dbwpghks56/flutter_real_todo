@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 class RxExerciseModel {
   final exid = 0.obs;
-  final exName = 'name'.obs;
+  final exName = "".obs;
   final setNo = 0.obs;
   final part = "back".obs;
   final totalNo = 0.obs;
@@ -19,7 +19,7 @@ class ExerciseModel {
   get exid => rx.exid.value;
   set exid(value) => rx.exid.value = value;
 
-  get exName => rx.exName.value;
+  get exName => rx.exName.value.toString();
   set exName(value) => rx.exName.value = value;
 
   get setNo => rx.setNo.value;
@@ -34,8 +34,8 @@ class ExerciseModel {
   get setPerNo => rx.setPerNo.value;
   set setPerNo(value) => rx.setPerNo.value = value;
 
-  get breakTime => rx.setPerNo.value;
-  set breakTime(value) => rx.setPerNo.value = value;
+  get breakTime => rx.breakTime.value;
+  set breakTime(value) => rx.breakTime.value = value;
 
   get exDate => rx.exDate.value;
   set exDate(value) => rx.exDate.value = value;

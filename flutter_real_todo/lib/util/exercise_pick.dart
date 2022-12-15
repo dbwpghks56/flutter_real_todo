@@ -2,13 +2,27 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_real_todo/controller/controller_exercise.dart';
+import 'package:flutter_real_todo/controller/controller_user.dart';
+import 'package:flutter_real_todo/model/model_exercise.dart';
 import 'package:flutter_real_todo/util/exercise_enum.dart';
 import 'package:flutter_real_todo/util/submit_row.dart';
 import 'package:get/get.dart';
 
 class ExercisePick extends StatelessWidget {
   final _type = ExerciseType.back.obs;
-  final _accoflag = [false].obs;
+  final _partType = [
+    ExerciseType.back,
+    ExerciseType.chest,
+    ExerciseType.shoulder,
+    ExerciseType.arm,
+    ExerciseType.abs,
+    ExerciseType.leg
+  ];
+  final _accoflag = 0.obs;
+  final exerciseModel = Get.put(ExerciseModel());
+  final userModel = Get.put(UserController());
+  final exerciseController = Get.put(ExerciseController());
   final setNo = TextEditingController();
   final exerName = TextEditingController();
   final setPerNo = TextEditingController();
@@ -24,40 +38,72 @@ class ExercisePick extends StatelessWidget {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Obx(() {
-                return ExpansionPanelList(
-                  expansionCallback: (panelIndex, isExpanded) {
-                    _accoflag[panelIndex] = !_accoflag[panelIndex];
-                    print(_accoflag[panelIndex]);
-                  },
-                  children: [
-                    ExpansionPanel(
-                        isExpanded: _accoflag[0],
-                        headerBuilder: (context, isExpanded) {
-                          return Text("test");
-                        },
-                        body: Text("test")
-                    ),
-                  ],
-                );
-              }),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: ExerciseType.values.length,
+              // Obx(() {
+              //   return ExpansionPanelList(
+              //     expansionCallback: (panelIndex, isExpanded) {
+              //       _accoflag[panelIndex] = !_accoflag[panelIndex];
+              //     },
+              //     children: [
+              //       ExpansionPanel(
+              //           isExpanded: _accoflag[0],
+              //           headerBuilder: (context, isExpanded) {
+              //             return Text("test");
+              //           },
+              //           body: Text("test")
+              //       ),
+              //     ],
+              //   );
+              // }),
+              SizedBox(
+              width: 330,
+              height: 220,
+              child: GridView.builder(
+                itemCount: _partType.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
                 itemBuilder: (context, index) {
                   return Obx(() {
-                    return RadioListTile(
-                        value: ExerciseType.values[index],
-                        title: Text(ExerciseType.values[index].toString().split(".")[1]),
-                        groupValue: _type.value,
-                        onChanged: (ExerciseType? value) {
-                          _type(value!);
-                          print(_type);
-                        }
+                    return ChoiceChip(
+                      padding: const EdgeInsets.all(10),
+                      backgroundColor: Colors.white,
+                      selectedColor: const Color(0xffDAEAF1),
+                      shape: const StadiumBorder(
+                        side: BorderSide(
+                          color: Colors.indigoAccent
+                        ),
+                      ),
+                      label: Text(
+                        _partType[index].toString().split(".")[1].toUpperCase(),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      selected: _accoflag.value == index,
+                      onSelected: (value) {
+                        _accoflag.value = (value ? index : null)!;
+                        exerciseModel.part = _partType[_accoflag.value].toString().split(".")[1];
+                      },
                     );
                   });
                 },
-              ),
+              )),
+              // ListView.builder(
+              //   shrinkWrap: true,
+              //   itemCount: ExerciseType.values.length,
+              //   itemBuilder: (context, index) {
+              //     return Obx(() {
+              //       return RadioListTile(
+              //           value: ExerciseType.values[index],
+              //           title: Text(ExerciseType.values[index].toString().split(".")[1]),
+              //           groupValue: _type.value,
+              //           onChanged: (ExerciseType? value) {
+              //             _type(value!);
+              //             exerciseModel.part = value.toString().split(".")[1];
+              //             print(exerciseModel.part);
+              //           }
+              //       );
+              //     });
+              //   },
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -133,15 +179,19 @@ class ExercisePick extends StatelessWidget {
                   controller: setPerRest,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
-                    hintText: "Set 당 쉬는 시간",
+                    hintText: "Set 당 쉬는 시간 : 단위 Sec",
                   ),
                   textAlign: TextAlign.right,
                   keyboardType: const TextInputType.numberWithOptions(),
                 ),
               ),
               SubmitRow(
-                submitFunc: () {
-                  print("test submit");
+                submitFunc: () async {
+                  exerciseModel.exName = exerName.text;
+                  exerciseModel.setNo = int.parse(setNo.text);
+                  exerciseModel.setPerNo = int.parse(setPerNo.text);
+                  exerciseModel.breakTime = int.parse(setPerRest.text);
+                  await exerciseController.insertExercises();
                 }
               ),
             ],
