@@ -35,24 +35,24 @@ class ChipTile extends StatelessWidget {
           itemBuilder: (context, index) {
             return Obx(() {
               return ChoiceChip(
-                padding: const EdgeInsets.all(10),
-                backgroundColor: Colors.white,
-                selectedColor: const Color(0xffDAEAF1),
-                shape: const StadiumBorder(
-                  side: BorderSide(
-                      color: Colors.indigoAccent
+                  padding: const EdgeInsets.all(10),
+                  backgroundColor: Colors.white,
+                  selectedColor: const Color(0xffDAEAF1),
+                  shape: const StadiumBorder(
+                      side: BorderSide(
+                          style: BorderStyle.none
+                      )
                   ),
-                ),
-                label: Text(
-                  _partType[index].toString().split(".")[1].toUpperCase(),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                selected: _accoflag.value == index,
-                onSelected: (value) {
-                  _accoflag.value = (value ? index : null)!;
-                  exerciseModel.part = _partType[_accoflag.value].toString().split(".")[1];
-                },
-              );
+                  label: Text(
+                    _partType[index].toString().split(".")[1].toUpperCase(),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  selected: _accoflag.value == index,
+                  onSelected: (value) {
+                    _accoflag.value = (value ? index : null)!;
+                    exerciseModel.part = _partType[_accoflag.value].toString().split(".")[1];
+                  },
+                );
             });
           },
         ));

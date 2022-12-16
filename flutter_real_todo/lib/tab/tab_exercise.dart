@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import '../utils.dart';
 
 class TabExercise extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,56 +20,69 @@ class TabExercise extends StatelessWidget {
         },
         child: const Text("+", style: TextStyle(fontSize: 25),),
       ),
-      body: Container(
-        child: TableCalendar<RxExerciseModel>(
-          firstDay: kFirstDay,
-          lastDay: kLastDay,
-          focusedDay: DateTime.now(),
-          locale: 'ko-KR',
-          calendarFormat: CalendarFormat.week,
-          headerStyle: const HeaderStyle(
-            decoration: BoxDecoration(
-              color: Colors.indigoAccent,
-            ),
-            headerMargin: EdgeInsets.only(bottom: 10),
-            titleTextStyle: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-            ),
-            leftChevronIcon: Icon(Icons.chevron_left, color: Colors.white,),
-            rightChevronIcon: Icon(Icons.chevron_right, color: Colors.white,),
-            formatButtonVisible: false,
-          ),
-          calendarStyle: CalendarStyle(
-            selectedDecoration:  BoxDecoration(
-              shape: BoxShape.circle,
-              color: const Color(0xffB1B2FF),
-              border: Border.all(color: const Color(0xffB1B2FF), width: 1.5),
-            ),
-            holidayTextStyle: const TextStyle(color: Colors.red),
-            defaultTextStyle: const TextStyle(color: Colors.black),
-            weekendTextStyle: const TextStyle(color: Colors.red),
-            todayDecoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: const Color(0xffD3CEDF),
-              border: Border.all(color: const Color(0xffD3CEDF), width: 1.5),
-            ),
-            canMarkersOverflow: true,
-            markerDecoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.indigoAccent,
-                  Color(0xff49a09d)
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            child: TableCalendar<RxExerciseModel>(
+              firstDay: kFirstDay,
+              lastDay: kLastDay,
+              focusedDay: DateTime.now(),
+              locale: 'ko-KR',
+              calendarFormat: CalendarFormat.week,
+              headerStyle: const HeaderStyle(
+                decoration: BoxDecoration(
+                  color: Colors.indigoAccent,
+                ),
+                headerMargin: EdgeInsets.only(bottom: 10),
+                titleTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                ),
+                leftChevronIcon: Icon(Icons.chevron_left, color: Colors.white,),
+                rightChevronIcon: Icon(Icons.chevron_right, color: Colors.white,),
+                formatButtonVisible: false,
               ),
-              shape: BoxShape.circle,
+              calendarStyle: CalendarStyle(
+                selectedDecoration:  BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0xffB1B2FF),
+                  border: Border.all(color: const Color(0xffB1B2FF), width: 1.5),
+                ),
+                holidayTextStyle: const TextStyle(color: Colors.red),
+                defaultTextStyle: const TextStyle(color: Colors.black),
+                weekendTextStyle: const TextStyle(color: Colors.red),
+                todayDecoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0xffD3CEDF),
+                  border: Border.all(color: const Color(0xffD3CEDF), width: 1.5),
+                ),
+                canMarkersOverflow: true,
+                markerDecoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.indigoAccent,
+                      Color(0xff49a09d)
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  shape: BoxShape.circle,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return Container();
+              },
+            ),
+          ),
+        ],
+      )
     );
   }
 }
