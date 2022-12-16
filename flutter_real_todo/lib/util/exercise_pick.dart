@@ -5,21 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_real_todo/controller/controller_exercise.dart';
 import 'package:flutter_real_todo/controller/controller_user.dart';
 import 'package:flutter_real_todo/model/model_exercise.dart';
+import 'package:flutter_real_todo/util/chip_tile.dart';
 import 'package:flutter_real_todo/util/exercise_enum.dart';
 import 'package:flutter_real_todo/util/submit_row.dart';
 import 'package:get/get.dart';
 
 class ExercisePick extends StatelessWidget {
-  final _type = ExerciseType.back.obs;
-  final _partType = [
-    ExerciseType.back,
-    ExerciseType.chest,
-    ExerciseType.shoulder,
-    ExerciseType.arm,
-    ExerciseType.abs,
-    ExerciseType.leg
-  ];
-  final _accoflag = 0.obs;
   final exerciseModel = Get.put(ExerciseModel());
   final userModel = Get.put(UserController());
   final exerciseController = Get.put(ExerciseController());
@@ -34,7 +25,7 @@ class ExercisePick extends StatelessWidget {
       child: Container(
         width: 350,
         height: 600,
-        padding: EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 10, right: 10),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -54,38 +45,11 @@ class ExercisePick extends StatelessWidget {
               //     ],
               //   );
               // }),
-              SizedBox(
-              width: 330,
-              height: 220,
-              child: GridView.builder(
-                itemCount: _partType.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                ),
-                itemBuilder: (context, index) {
-                  return Obx(() {
-                    return ChoiceChip(
-                      padding: const EdgeInsets.all(10),
-                      backgroundColor: Colors.white,
-                      selectedColor: const Color(0xffDAEAF1),
-                      shape: const StadiumBorder(
-                        side: BorderSide(
-                          color: Colors.indigoAccent
-                        ),
-                      ),
-                      label: Text(
-                        _partType[index].toString().split(".")[1].toUpperCase(),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      selected: _accoflag.value == index,
-                      onSelected: (value) {
-                        _accoflag.value = (value ? index : null)!;
-                        exerciseModel.part = _partType[_accoflag.value].toString().split(".")[1];
-                      },
-                    );
-                  });
-                },
-              )),
+              ChipTile(
+                sizeChipHeight: 220,
+                sizeChipWidth: 330,
+                chipGridCount: 3
+              ),
               // ListView.builder(
               //   shrinkWrap: true,
               //   itemCount: ExerciseType.values.length,
@@ -128,7 +92,7 @@ class ExercisePick extends StatelessWidget {
                   Container(
                     width: 90,
                     height: 50,
-                    padding: const EdgeInsets.only(left: 5),
+                    padding: const EdgeInsets.only(right: 5),
                     decoration: BoxDecoration(
                       border: Border.all(
                         style: BorderStyle.solid,
@@ -137,6 +101,7 @@ class ExercisePick extends StatelessWidget {
                     ),
                     child: TextField(
                       controller: setNo,
+                      textAlign: TextAlign.right,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                          hintText: "Set 수 기록",
@@ -147,7 +112,7 @@ class ExercisePick extends StatelessWidget {
                   Container(
                     width: 90,
                     height: 50,
-                    padding: const EdgeInsets.only(left: 5),
+                    padding: const EdgeInsets.only(right: 5),
                     decoration: BoxDecoration(
                         border: Border.all(
                           style: BorderStyle.solid,
@@ -155,6 +120,7 @@ class ExercisePick extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12)
                     ),
                     child: TextField(
+                      textAlign: TextAlign.right,
                       controller: setPerNo,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
