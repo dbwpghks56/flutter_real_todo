@@ -8,7 +8,7 @@ import '../utils.dart';
 
 class TabExercise extends StatelessWidget {
   final _accoflag = [false,false,false,false,false,false].obs;
-  final _exerType = ['등', '가슴', '어깨', '팔', '복근', '하체'];
+  final _exerType = ['🏋🏼  Back', '🏋🏼  Chest', '🏋🏼  Shoulder', '🏋🏼  Arm', '🏋🏼  Abs', '🏋🏼  Leg'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,7 @@ class TabExercise extends StatelessWidget {
         },
         child: const Text("+", style: TextStyle(fontSize: 25),),
       ),
-      body: Column(
+      body: ListView(
         children: [
           TableCalendar<RxExerciseModel>(
             firstDay: kFirstDay,
@@ -73,10 +73,9 @@ class TabExercise extends StatelessWidget {
           const SizedBox(height: 8.0),
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            padding: EdgeInsets.only(left: 10, right: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10),
             child: Obx(() {
                 return ExpansionPanelList(
-                  dividerColor: Colors.indigoAccent,
                   expansionCallback: (panelIndex, isExpanded) {
                     _accoflag[panelIndex] = !_accoflag[panelIndex];
                   },
@@ -84,7 +83,25 @@ class TabExercise extends StatelessWidget {
                     return ExpansionPanel(
                         isExpanded: _accoflag[index],
                         headerBuilder: (context, isExpanded) {
-                          return Text(_exerType[index], textAlign: TextAlign.justify,);
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Padding(padding: EdgeInsets.only(left: 10)),
+                              Text(
+                                _exerType[index],
+                                style: const TextStyle(
+                                    fontSize: 25
+                                ),
+                              ),
+                              const Padding(padding: EdgeInsets.only(left: 10)),
+                              Text(
+                                "${DateTime(2022,12,21).weekday}",
+                                style: const TextStyle(
+                                    fontSize: 10
+                                ),
+                              ),
+                            ],
+                          );
                         },
                         body: Container(
                           height: 500,
